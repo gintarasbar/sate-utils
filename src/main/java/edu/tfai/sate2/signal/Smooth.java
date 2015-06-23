@@ -6,7 +6,7 @@ import org.apache.commons.math3.analysis.interpolation.SplineInterpolator;
 import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 import umontreal.iro.lecuyer.functionfit.BSpline;
 
-import static edu.tfai.sate2.synthetic.batch.BatchParameters.HI_RES_LIMIT;
+import static edu.tfai.sate2.synthetic.batch.BatchConstants.HI_RES_LIMIT;
 import static java.lang.String.format;
 
 @Slf4j
