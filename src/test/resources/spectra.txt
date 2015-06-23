@@ -1,0 +1,256 @@
+BITPIX  =                    8  /  8-bit ASCII characters                       
+NAXIS   =                    1  /  Number of Image Dimensions                   
+NAXIS1  =               161504  /  Length of axis                               
+ORIGIN  = 'NOAO-IRAF: WTEXTIMAGE'  /
+IRAF-MAX=                   0.  /  Max image pixel (out of date)                
+IRAF-MIN=                   0.  /  Min image pixel (out of date)                
+IRAF-B/P=                   32  /  Image bits per pixel                         
+IRAFTYPE= 'REAL FLOATING     '  /  Image datatype                              
+OBJECT  = 'HD217188          '  /                                              
+FILENAME= 'CONT.FITS         '  /  IRAF filename                               
+FORMAT  = '5G14.7            '  /  Text line format                            
+EXTEND  =                    T / File may contain extensions                    
+ORIGIN  = 'NOAO-IRAF FITS Image Kernel July 2003' / FITS file originator        
+IRAF-TLM= '2012-11-15T15:22:23' / Time of last modification                     
+OBSERVAT= 'LaPalma '                                                            
+TELESCOP= 'NOT     '                                                            
+INSTRUME= 'FIES    '                                                            
+DETNAME = 'EEV 2k x 2k'                                                         
+DATE    = '2012-11-15T15:23:16'                                                 
+DATE-OBS= '2012-11-13T21:02:03.5'                                               
+FILENAME= 'FIvk130052.fits'                                                     
+OBJECT  = 'HD217188'                                                            
+OBSERVER= 'ntaras Barisevicius'                                                 
+IMAGETYP= '        '                                                            
+EQUINOX =               2000.0                                                  
+EXPTIME =                800.0                                                  
+TM_START=              75723.5                                                  
+TM_END  =              76602.7                                                  
+GAINM   = 'HIGH    '                                                            
+AMPLM   = 'B       '                                                            
+CCDTEMP =               -120.6                                                  
+LN2TEMP =               -200.0                                                  
+MPP     =                    0                                                  
+CHIPID  = 'EEV42-40, 2Kx2K'                                                     
+XOVERSC =                   50                                                  
+YOVERSC =                    0                                                  
+P_DEWAR =              2.7E-06                                                  
+TM-START=              75723.5                                                  
+SHSTAT  = 'OPEN    '                                                            
+DETXBIN =                    1                                                  
+DETYBIN =                    1                                                  
+STFLTNM = 'V_Bes543_103'                                                        
+STFLTID =                    0                                                  
+STFLTPOS=                    3                                                  
+UT      =        21.0344444444                                                  
+ST      =        23.4011111111                                                  
+RA      =       344.7370234484                                                  
+DEC     =        -0.3151827481                                                  
+RADECSYS= 'FK5     '                                                            
+TELALT  =                60.54                                                  
+AZIMUTH =                12.39                                                  
+AIRMASS =         1.1485048532                                                  
+FIELD   =    99.45999999999999                                                  
+ROTPOS  =                88.63                                                  
+CCDPROBE= 'split   '                                                            
+AUXPOS  =               162687                                                  
+AUYPOS  =                61787                                                  
+AUBXXPOS=                  255                                                  
+AUBXYPOS=                  255                                                  
+AUSTATUS= 'on      '                                                            
+ADCARM  = 'OUT     '                                                            
+ADCMODE = 'MANUAL  '                                                            
+ADC1ANG = -6.9999999999999E-05                                                  
+ADC2ANG =             -0.00088                                                  
+ADC1ENC =                  -99                                                  
+ADC2ENC =                  -99                                                  
+TELFOCUS=                23548                                                  
+TCSTGT  = 'HD217188'                                                            
+OBJRA   =        344.720500001                                                  
+OBJDEC  =         -0.315944444                                                  
+OBJPMRA =                  0.0                                                  
+OBJPMDEC=                  0.0                                                  
+OBJEQUIN=               2000.0                                                  
+FIFOCUS =                  -10                                                  
+FILSL   = 'ThAr    '                                                            
+FILSLPOS=                  680                                                  
+CALSHUT =                    0                                                  
+CALSHUTN=                  -99                                                  
+CALSHUTD=                  -99                                                  
+FIFMSKNM= 'F4 HiRes'                                                            
+FIFMSKID=                    3                                                  
+FIFMSKPS=               721000                                                  
+FIBUNDLE= 'C - installed Nov 25 2009'                                           
+FICARMNM= 'F2 MedRes ThAr'                                                      
+FICARMID=                    4                                                  
+FICARMPS=               250001                                                  
+FILMP1  =                    0                                                  
+FILMPNM1= 'Halogen '                                                            
+FILMPID1= 'LMP1234 '                                                            
+FILMP2  =                    0                                                  
+FILMPNM2= 'Neon    '                                                            
+FILMPID2= 'LMP1234 '                                                            
+FILMP3  =                    0                                                  
+FILMPNM3= 'Hg      '                                                            
+FILMPID3= 'LMP1234 '                                                            
+FILMP4  =                    0                                                  
+FILMPNM4= 'ThAr    '                                                            
+FILMPID4= 'ThAr Hereus installed 13 Oct 2009'                                   
+FILMP6  =                    0                                                  
+FILMPNM6= 'Halogen '                                                            
+FILMPID6= 'Ha12345 '                                                            
+FILMP7  =                    0                                                  
+FILMPNM7= 'Th/Ar   '                                                            
+FILMPID7= 'ThAr Hereus installed 29 Jun 2012'                                   
+CREATOR = 'NOT2MEF V1.5'                                                        
+OBSGEO-X=         5327395.9638                                                  
+OBSGEO-Y=        -1719170.4876                                                  
+OBSGEO-Z=          3051490.766                                                  
+OBS_MODE= 'Spectroscopy'                                                        
+DATE-AVG= '2012-11-13T21:08:43.5'                                               
+BUNIT   = 'count   '                                                            
+CTYPE1  = 'LINEAR  '                                                            
+CUNIT1  = 'pixel   '                                                            
+CUNIT2  = 'pixel   '                                                            
+IMAGEID =                    1                                                  
+CCDNAME = 'CCD13   '                                                            
+CCDSUM  = '1 1     '                                                            
+DARK    =                  0.0                                                  
+QCDDATE = 'UNDEFINED'                                                           
+RDNOISE =                  3.3                                                  
+GAIN    =                 0.71                                                  
+CTPYE2  = 'PIXEL   '                                                            
+VHELIO  =   -27.56368407005191                                                  
+HISTORY This is FIEStool vesion 1.3.2                                           
+HISTORY Original file : FIvk130052.fits                                         
+HISTORY Frame rotated/flipped (orientation 7)                                   
+HISTORY Frame clipped                                                           
+HISTORY Added header card for heliocentric velocity                             
+HISTORY Replaced zero-valued pixels with combined bias values                   
+HISTORY Subtracted combined bias : master_bias.fits                             
+HISTORY Divided by normalized combined flat : master_normflat.fits              
+HISTORY Extracted orders according to definition in master_orderdef.fits        
+HISTORY Divided out blaze shape using blazeshape.fits                           
+HISTORY Added wavelength definition using waveref.fits                          
+HISTORY = 'Individual orders merged from &'                                     
+CONTINUE  '/raid1/data/reduced/fies/gintaras/FIvk130052_step011_merge.fits&'    
+BANDID1 = 'spectrum - background none, weights variance, clean yes'             
+BANDID2 = 'raw - background none, weights none, clean no'                       
+BANDID3 = 'sigma - background none, weights variance, clean yes'                
+WCSDIM  =                    1 /3                                               
+CD1_1   =     0.02309154933461                                                  
+LTM1_1  =                   1.                                                  
+WAT0_001= 'system=equispec'                                                     
+WAT1_001= 'wtype=linear label=Wavelength units=Angstroms'                       
+DCLOG1  = 'REFSPEC1 = waveref'                                                  
+APNUM1  = '1 156 22.40 34.40'                                                   
+DC-FLAG =                    0                                                  
+CRVAL1  =      3635.6689453125                                                  
+CRPIX1  =                   1.                                                  
+CDELT1  =     0.02309154933461                                                  
+NCOMBINE=                    3                                                  
+SFIT    = '1       '                                                            
+SFITB   = '1       '                                                            
+END                                                                             
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+3635.6689453125  0.
+3635.69203686183  0.
+3635.71512841117  0.
+3635.7382199605  0.
+3635.76131150984  0.
+3635.78440305917  0.
+3635.80749460851  0.
+3635.83058615784  0.
+3635.85367770718  0.
+3635.87676925651  0.
+3635.89986080585  0.
+3635.92295235518  0.
+3635.94604390452  0.
+3635.96913545385  0.
+3635.99222700318  0.
+3636.01531855252  0.
+3636.03841010185  0.
+3636.06150165119  0.
+3636.08459320052  0.
+3636.10768474986  0.
+3636.13077629919  0.
+3636.15386784853  0.
+3636.17695939786  0.
+3636.2000509472  0.
+3636.22314249653  0.
+3636.24623404586  0.
+3636.2693255952  0.
+3636.29241714453  0.
+3636.31550869387  0.
+3636.3386002432  0.
+3636.36169179254  0.
+3636.38478334187  0.
+3636.40787489121  0.
+3636.43096644054  0.
+3636.45405798988  0.
+3636.47714953921  0.
+3636.50024108855  0.
+3636.52333263788  0.
+3636.54642418721  0.
+3636.56951573655  0.
+3636.59260728588  0.
+3636.61569883522  0.
+3636.63879038455  0.
+3636.66188193389  0.
+3636.68497348322  0.
+3636.70806503256  0.
+3636.73115658189  0.
+3636.75424813123  0.
+3636.77733968056  0.
+3636.8004312299  0.
+3636.82352277923  0.
+3636.84661432856  0.
+3636.8697058779  0.
+3636.89279742723  1.193627E-9
+3636.91588897657  -1.295789E-8
+3636.9389805259  3.068677E-8
+3636.96207207524  1.871390E-6
+3636.98516362457  -1.542175E-5
+3637.00825517391  4.141147E-5
+3637.03134672324  6.560078E-4
+3637.05443827258  -0.002939933
+3637.07752982191  0.003602112
+3637.10062137125  0.07800123
+3637.12371292058  0.06927741
+3637.14680446992  -0.02434409
+3637.16989601925  -0.0443504
+3637.19298756858  0.09200237
+3637.21607911792  0.1553891
+3637.23917066725  0.01765126
+3637.26226221659  -0.07460375
+3637.28535376592  -0.07808755
+3637.30844531526  -0.0467517
+3637.33153686459  -0.03812022
+3637.35462841393  -0.06168982
+3637.37771996326  -0.03372777
+3637.4008115126  -0.1634572
+3637.42390306193  -0.09869998
+3637.44699461127  0.1463592
