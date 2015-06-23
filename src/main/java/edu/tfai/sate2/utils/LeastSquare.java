@@ -27,6 +27,7 @@ public class LeastSquare {
             }
         }
 
+
         double sum = 0;
         for (int i = 0; i < observedSpectraList.size(); i++) {
             double y = newSpectraList.get(i);
