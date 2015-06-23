@@ -1,6 +1,5 @@
 package edu.tfai.vu.sate2.utils;
 
-import edu.tfai.sate.exceptions.ProfileException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
@@ -15,7 +14,7 @@ public class BinarySearch {
             log.error(format(
                     "No binary search match found for %2.4f with range [%.3f,%.3f], count=%s", searchValue,
                     x[0], x[x.length - 1], x.length));
-            throw new IllegalArgumentException(format("No binary search match found for %2.4f with range [%.3f,%.3f]", searchValue, x[0], x[x.length - 1]);
+            throw new IllegalArgumentException(format("No binary search match found for %2.4f with range [%.3f,%.3f]", searchValue, x[0], x[x.length - 1]));
         }
 
         int pos = Arrays.binarySearch(x, searchValue);

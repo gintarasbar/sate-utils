@@ -8,24 +8,58 @@
     <artifactId>sate-utils</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-<!--missing the dependencies-->
+    <properties>
+        <slf4j.version>1.7.7</slf4j.version>
+        <guava.version>18.0</guava.version>
+        <stanford.nlp.version>3.3.1</stanford.nlp.version>
+        <mockito.version>1.9.8</mockito.version>
+        <hamcrest.version>1.3</hamcrest.version>
+        <acpache-commons.version>1.3.2</acpache-commons.version>
+        <lombok.version>1.16.4</lombok.version>
+        <math3.version>3.5</math3.version>
+    </properties>
+
+
+    <!--missing the dependencies-->
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.4</version>
+            <version>${lombok.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
-            <version>3.5</version>
+            <version>${math3.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>18.0</version>
+            <version>${guava.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
     </dependencies>
 </project>
