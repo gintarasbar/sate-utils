@@ -1,4 +1,4 @@
-package edu.tfai.vu.sate2.utils;
+package edu.tfai.sate2.utils;
 
 import lombok.extern.slf4j.Slf4j;
 

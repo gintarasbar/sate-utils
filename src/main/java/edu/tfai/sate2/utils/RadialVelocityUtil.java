@@ -1,4 +1,4 @@
-package edu.tfai.vu.sate2.utils;
+package edu.tfai.sate2.utils;
 
 
 public class RadialVelocityUtil {

@@ -1,6 +1,6 @@
-package edu.tfai.vu.sate2.spectra;
+package edu.tfai.sate2.spectra;
 
-import edu.tfai.vu.sate2.utils.BinarySearch;
+import edu.tfai.sate2.utils.BinarySearch;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.google.common.primitives.Doubles.toArray;
-import static edu.tfai.vu.sate2.utils.RadialVelocityUtil.radialVelocityToShift;
+import static edu.tfai.sate2.utils.RadialVelocityUtil.radialVelocityToShift;
 import static java.lang.Math.max;
 import static java.lang.String.format;
 
