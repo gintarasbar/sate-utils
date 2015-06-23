@@ -1,12 +1,10 @@
 package edu.tfai.sate2.utils;
 
 
-import com.google.inject.Singleton;
 import edu.tfai.sate2.spectra.Spectra;
 
 import java.util.Random;
 
-@Singleton
 public class NoiseUtil {
 
     public static final int NOISE_THRESHOLD = 10;
