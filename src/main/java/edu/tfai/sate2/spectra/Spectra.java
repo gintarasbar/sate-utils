@@ -92,9 +92,9 @@ public class Spectra implements Serializable {
     }
 
     public void shift(double shift) {
-//        if (AdminManager.getInstance().NOISE) {
+//        if (AdminManager.getInstance().hasNOISE) {
 //            log.info("Noise detected in the signal while shift");
-//            addNoise(this.y, NOISE_LEVEL);
+//            getNoiseLevel(this.y, NOISE_LEVEL);
 //            recalculateStatistics();
 //        }
 
@@ -137,9 +137,9 @@ public class Spectra implements Serializable {
     }
 
     public void radialShift(double radial) {
-//        if (AdminManager.getInstance().NOISE) {
+//        if (AdminManager.getInstance().hasNOISE) {
 //            log.info("Noise detected in the signal while radial shift");
-//            addNoise(this.y, NOISE_LEVEL);
+//            getNoiseLevel(this.y, NOISE_LEVEL);
 //            recalculateStatistics();
 //        }
 
