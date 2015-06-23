@@ -1,8 +1,7 @@
-package edu.tfai.sate2.utils;
+package edu.tfai.sate2.synthetic.file;
 
 import com.google.common.base.Strings;
 import edu.tfai.sate2.exceptions.NoPointsInSpectra;
-import edu.tfai.sate2.synthetic.file.MergeFiles;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
@@ -119,15 +118,7 @@ public class SpectraFileUtils {
         return lines;
     }
 
-    public static boolean stringIsNan(String string) {
-        if (string.equalsIgnoreCase("nan"))
-            return true;
-        double wave = Double.parseDouble(string);
-        if (Double.isNaN(wave)) {
-            return true;
-        }
-        return false;
-    }
+
 
     public static String spectraName(String path) {
         String name = new File(path).getName();

@@ -3,15 +3,14 @@ package edu.tfai.sate2.spectra;
 import com.google.inject.Singleton;
 import edu.tfai.sate2.cache.DataCache;
 import edu.tfai.sate2.exceptions.SpectraOutOfRange;
-import edu.tfai.sate2.utils.SpectraFileUtils;
+import edu.tfai.sate2.synthetic.file.SpectraFileUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
-import static edu.tfai.sate2.utils.SpectraFileUtils.getSpectraRange;
-import static edu.tfai.sate2.utils.SpectraFileUtils.stringIsNan;
+import static edu.tfai.sate2.utils.NumberUtils.stringIsNan;
 import static java.lang.Double.parseDouble;
 import static java.lang.String.format;
 
@@ -98,15 +97,15 @@ public class SpectraReader {
                     continue;
                 } else if (tokens.length == 2) {
                     String waveString = tokens[0];
-                    if (SpectraFileUtils.stringIsNan(waveString))
+                    if (stringIsNan(waveString)) {
                         continue;
-
+                    }
                     double wave = parseDouble(waveString);
 
                     if (wave >= startWave && wave <= endWave) {
                         x[pos] = wave;
                         String yValueString = tokens[1];
-                        if (SpectraFileUtils.stringIsNan(yValueString)) {
+                        if (stringIsNan(yValueString)) {
                             y[pos] = 0.0d;
                         } else {
                             double yValue = parseDouble(yValueString);
