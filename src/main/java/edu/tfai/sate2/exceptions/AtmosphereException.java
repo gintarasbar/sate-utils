@@ -1,6 +1,6 @@
 package edu.tfai.sate2.exceptions;
 
-import edu.tfai.sate.synthetic.batch.BatchResults;
+import edu.tfai.sate2.model.batch.BatchResults;
 
 public class AtmosphereException extends AbstractSateException {
     private static final long serialVersionUID = -3099329256915349672L;

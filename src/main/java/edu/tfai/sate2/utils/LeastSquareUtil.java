@@ -11,7 +11,7 @@ import java.util.List;
 import static com.google.common.collect.Lists.newArrayList;
 import static java.lang.Math.abs;
 
-public class LeastSquare {
+public class LeastSquareUtil {
 
     public static double residuals(Spectra obsSpectra, Spectra syntheticSpectra) {
 

@@ -10,7 +10,7 @@ import java.io.*;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
-import static edu.tfai.sate2.utils.NumberUtils.stringIsNan;
+import static edu.tfai.sate2.utils.NumberUtil.stringIsNan;
 import static java.lang.Double.parseDouble;
 import static java.lang.String.format;
 

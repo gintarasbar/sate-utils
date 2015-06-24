@@ -8,7 +8,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class FileTestUtil {
+public class FileNameUtils {
 
     public static Path getPath(String file) {
         try {

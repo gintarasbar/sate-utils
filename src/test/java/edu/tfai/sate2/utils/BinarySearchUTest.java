@@ -3,9 +3,9 @@ package edu.tfai.sate2.utils;
 import edu.tfai.sate2.exceptions.ProfileException;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static junit.framework.TestCase.fail;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 
 public class BinarySearchUTest {
 
@@ -15,27 +15,27 @@ public class BinarySearchUTest {
     public void testSearch() {
 
         int result = BinarySearch.search(x, 1.1);
-        Assert.assertThat(result, CoreMatchers.is(0));
+        assertThat(result, is(0));
 
         result = BinarySearch.search(x, 1.0);
-        Assert.assertThat(result, CoreMatchers.is(0));
+        assertThat(result, is(0));
 
         result = BinarySearch.search(x, 6.9);
-        Assert.assertThat(result, CoreMatchers.is(6));
+        assertThat(result, is(6));
 
         result = BinarySearch.search(x, 8.0);
-        Assert.assertThat(result, CoreMatchers.is(7));
+        assertThat(result, is(7));
 
         try {
             BinarySearch.search(x, 8.1);
-            Assert.fail();
+            fail();
         } catch (ProfileException e) {
 
         }
 
         try {
             BinarySearch.search(x, 0.9);
-            Assert.fail();
+            fail();
         } catch (ProfileException e) {
 
         }

@@ -11,7 +11,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.nio.file.Path;
 
 import static edu.tfai.sate2.signal.Smooth.*;
-import static edu.tfai.sate2.utils.FileTestUtil.getPath;
+import static edu.tfai.sate2.utils.FileNameUtils.getPath;
 import static edu.tfai.sate2.utils.NoiseUtil.addNoise;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;

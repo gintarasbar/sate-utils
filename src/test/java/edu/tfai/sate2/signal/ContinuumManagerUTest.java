@@ -4,7 +4,7 @@ import edu.tfai.sate2.spectra.SpectraReader;
 
 import java.nio.file.Path;
 
-import static edu.tfai.sate2.utils.FileTestUtil.getPath;
+import static edu.tfai.sate2.utils.FileNameUtils.getPath;
 
 public class ContinuumManagerUTest {
     private final Path sunSynthetic = getPath("o2_sun_synth.xxy");

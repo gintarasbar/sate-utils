@@ -1,7 +1,6 @@
 package edu.tfai.sate2.spectra;
 
-import edu.tfai.sate2.utils.FileTestUtil;
-import org.hamcrest.Matchers;
+import edu.tfai.sate2.utils.FileNameUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,7 +9,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.nio.file.Path;
 
-import static edu.tfai.sate2.utils.FileTestUtil.getPath;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
@@ -20,9 +18,9 @@ public class SpectraUTest {
 
 
 
-    private final Path file = FileTestUtil.getPath("o2_sun_synth.xxy");
-    private final Path sunFile = FileTestUtil.getPath("sunO2.txt");
-    private final Path starFile = FileTestUtil.getPath("HD222107_02.txt");
+    private final Path file = FileNameUtils.getPath("o2_sun_synth.xxy");
+    private final Path sunFile = FileNameUtils.getPath("sunO2.txt");
+    private final Path starFile = FileNameUtils.getPath("HD222107_02.txt");
 
     @InjectMocks
     SpectraReader spectraReader;

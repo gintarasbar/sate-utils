@@ -1,6 +1,7 @@
 package edu.tfai.sate2.exceptions;
 
-import edu.tfai.sate.synthetic.batch.BatchResults;
+
+import edu.tfai.sate2.model.batch.BatchResults;
 
 public class NanInTheLine extends AbstractSateException {
     private static final long serialVersionUID = 646733472954282340L;

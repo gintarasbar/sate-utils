@@ -2,14 +2,14 @@ package edu.tfai.sate2.utils;
 
 import edu.tfai.sate2.spectra.Spectra;
 import edu.tfai.sate2.spectra.SpectraReader;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.nio.file.Path;
 
-import static edu.tfai.sate2.utils.FileTestUtil.getPath;
+import static edu.tfai.sate2.utils.FileNameUtils.getPath;
 import static edu.tfai.sate2.utils.NoiseUtil.addNoise;
 import static edu.tfai.sate2.utils.NoiseUtil.noiseCheck;
+import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.number.IsCloseTo.closeTo;
 import static org.junit.Assert.assertThat;
 
@@ -22,7 +22,7 @@ public class NoiseUtilUTest {
     public void testNoiseLevel() {
         Spectra spectra = spectraReader.loadSyntheticSpectra(file, "02");
         double noise = noiseCheck(spectra);
-        Assert.assertThat(noise, IsCloseTo.closeTo(284, 1));
+        assertThat(noise, closeTo(284, 1));
     }
 
     @Test
@@ -33,7 +33,7 @@ public class NoiseUtilUTest {
         noisySp.normalize();
         double noise = noiseCheck(noisySp);
 //        spectraReader.writeSpectra(get("./sp1.txt"), noisySp);
-        Assert.assertThat(noise, Matchers.lessThan(284.0));
+        assertThat(noise, lessThan(284.0));
 
     }
 }

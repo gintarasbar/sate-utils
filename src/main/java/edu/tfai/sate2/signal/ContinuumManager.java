@@ -2,17 +2,15 @@ package edu.tfai.sate2.signal;
 
 import com.google.common.primitives.Doubles;
 import edu.tfai.sate2.spectra.Spectra;
-import edu.tfai.sate2.utils.LeastSquare;
+import edu.tfai.sate2.utils.LeastSquareUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static edu.tfai.sate2.synthetic.batch.BatchConstants.HI_RES_LIMIT;
 import static edu.tfai.sate2.signal.Smooth.getSmooth;
-import static edu.tfai.sate2.signal.Smooth.getSplineSmoothFunction;
+import static edu.tfai.sate2.synthetic.batch.BatchConstants.HI_RES_LIMIT;
 import static java.lang.String.format;
 
 @Slf4j
@@ -101,7 +99,7 @@ public abstract class ContinuumManager {
 
     public static double compareSpectraLevel(Spectra obsSpectra, Spectra synthetic) {
         Spectra smoothedSpectra = getSmooth(obsSpectra, 20, 1);
-        double val = LeastSquare.squareDifferenceStDev(smoothedSpectra, synthetic);
+        double val = LeastSquareUtil.squareDifferenceStDev(smoothedSpectra, synthetic);
         return val;
     }
 

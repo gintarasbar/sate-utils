@@ -1,6 +1,6 @@
 package edu.tfai.sate2.exceptions;
 
-import edu.tfai.sate.synthetic.batch.BatchResults;
+import edu.tfai.sate2.model.batch.BatchResults;
 
 import static edu.tfai.sate2.utils.RadialVelocityUtil.radialVelocityToShift;
 
