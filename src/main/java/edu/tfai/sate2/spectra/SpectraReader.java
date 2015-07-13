@@ -7,6 +7,7 @@ import edu.tfai.sate2.synthetic.file.SpectraFileUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
@@ -46,6 +47,7 @@ public class SpectraReader {
             Spectra spectra = dataCache.retrieve(spectraKey(file, startWave, endWave));
             if (spectra == null) {
                 spectra = readSpectraRange(file, startWave, endWave);
+                spectra.setSpectraName(file.toRealPath(LinkOption.NOFOLLOW_LINKS).toString());
                 dataCache.store(spectraKey(file, startWave, endWave), spectra);
             } else {
                 spectra.setCached(true);

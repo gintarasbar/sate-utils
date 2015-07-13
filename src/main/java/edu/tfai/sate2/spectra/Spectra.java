@@ -1,6 +1,7 @@
 package edu.tfai.sate2.spectra;
 
 import edu.tfai.sate2.utils.BinarySearch;
+import edu.tfai.sate2.utils.RandomUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import static com.google.common.primitives.Doubles.toArray;
 import static edu.tfai.sate2.utils.RadialVelocityUtil.radialVelocityToShift;
+import static edu.tfai.sate2.utils.RandomUtils.string;
 import static java.lang.Math.max;
 import static java.lang.String.format;
 
@@ -20,20 +22,25 @@ import static java.lang.String.format;
 public class Spectra implements Serializable {
 
     @Setter
-    @Getter
     private boolean cached = false;
-    public static final double NOISE_LEVEL = 0.3;
+
     private DescriptiveStatistics yStats;
+
     private DescriptiveStatistics xStats;
 
     private final double[] x;
+
     private final double[] y;
 
     private double shift = 0;
+
     private double continuumLevel = 1.0;
 
     @Setter
     private String instrument;
+
+    @Setter
+    private String spectraName = string();
 
     public Spectra(List<Double> x, List<Double> y) {
         this(toArray(x), toArray(y));

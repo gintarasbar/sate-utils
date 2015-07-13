@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 
 import static edu.tfai.sate2.utils.FileNameUtils.getPath;
@@ -54,8 +55,10 @@ public class SpectraReaderUTest {
         assertThat(spectra.size(), is(19));
         assertThat(spectra.getInstrument(), is("FIES"));
         assertThat(spectra.isCached(), is(false));
+        assertThat(spectra.getSpectraName(),is(spFile.toRealPath(LinkOption.NOFOLLOW_LINKS).toString()));
         spectra =  spectraReader.loadSpectra(spFile, "All", 3636.569, 3637.00);
         assertThat(spectra.isCached(), is(true));
+        assertThat(spectra.getSpectraName(),is(spFile.toRealPath(LinkOption.NOFOLLOW_LINKS).toString()));
     }
 
 
