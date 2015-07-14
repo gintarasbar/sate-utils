@@ -11,6 +11,7 @@ import java.nio.file.Path;
 
 import static edu.tfai.sate2.utils.FileNameUtils.getPath;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.number.IsCloseTo.closeTo;
 import static org.junit.Assert.assertThat;
 
@@ -47,6 +48,8 @@ public class SpectraReaderUTest {
         assertThat(spectra.getX(9), closeTo(6295.1700, 0.001));
         assertThat(spectra.getY(9), closeTo(1.200, 0.001));
         assertThat(spectra.isCached(), is(false));
+        assertThat(spectra.getSpectraName(),is(not(file.toRealPath(LinkOption.NOFOLLOW_LINKS).toString())));
+        assertThat(spectra.getSpectraName().length(),is(255));
     }
 
     @Test
