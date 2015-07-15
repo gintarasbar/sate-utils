@@ -305,4 +305,9 @@ public class Element implements Serializable, Cloneable {
     public LineData getLine(Float lineWave) {
         return lineHash.get(String.format("%.3f", lineWave));
     }
+
+    public static String getIdentification(LineData line) {
+        return line != null && line.getElementReference() != null ? line.getElementReference()
+                .getIdentification() : "null";
+    }
 }
