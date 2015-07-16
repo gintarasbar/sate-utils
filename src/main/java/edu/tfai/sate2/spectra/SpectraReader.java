@@ -11,6 +11,7 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
+import static edu.tfai.sate2.model.batch.BatchParameters.USE_CACHE;
 import static edu.tfai.sate2.utils.NumberUtil.stringIsNan;
 import static java.lang.Double.parseDouble;
 import static java.lang.String.format;
@@ -34,7 +35,7 @@ public class SpectraReader {
             throw new IllegalArgumentException(format("Synthetic spectra must end with .xy or .xxy, but was %s", file));
         }
 
-        if (spectra==null || spectra.size() == 0) {
+        if (spectra == null || spectra.size() == 0) {
             log.error(format("Error loading synthetic spectra %s", file));
             throw new SpectraOutOfRange(0, spectra.getMinX(), spectra.getMaxX(), lineId);
         }
@@ -44,15 +45,12 @@ public class SpectraReader {
     public Spectra loadSpectra(Path file, String lineId, double startWave, double endWave) {
 
         try {
-            Spectra spectra = dataCache.retrieve(spectraKey(file, startWave, endWave));
-            if (spectra == null) {
-                spectra = readSpectraRange(file, startWave, endWave);
-                spectra.setSpectraName(file.toRealPath(LinkOption.NOFOLLOW_LINKS).toString());
-                dataCache.store(spectraKey(file, startWave, endWave), spectra);
+            Spectra spectra;
+            if (USE_CACHE) {
+                spectra = loadSpectraFromCache(file, startWave, endWave);
             } else {
-                spectra.setCached(true);
+                spectra = loadSpectraAndSetFileName(file, startWave, endWave);
             }
-
             validateSpectra(file, lineId, startWave, endWave, spectra);
             return spectra;
         } catch (Exception e) {
@@ -61,8 +59,27 @@ public class SpectraReader {
         }
     }
 
+    private Spectra loadSpectraFromCache(Path file, double startWave, double endWave) throws Exception {
+        Spectra spectra = dataCache.retrieve(spectraKey(file, startWave, endWave));
+        if (spectra == null) {
+            spectra = loadSpectraAndSetFileName(file, startWave, endWave);
+            dataCache.store(spectraKey(file, startWave, endWave), (Spectra) spectra.clone());
+        } else {
+            spectra.setCached(true);
+            spectra = (Spectra) spectra.clone();
+        }
+        return spectra;
+    }
+
+    private Spectra loadSpectraAndSetFileName(Path file, double startWave, double endWave) throws Exception {
+        Spectra spectra;
+        spectra = readSpectraRange(file, startWave, endWave);
+        spectra.setSpectraName(file.toRealPath(LinkOption.NOFOLLOW_LINKS).toString());
+        return spectra;
+    }
+
     private void validateSpectra(Path file, String lineId, Double startWave, Double endWave, Spectra spectra) {
-        if (spectra==null || spectra.size() == 0) {
+        if (spectra == null || spectra.size() == 0) {
             log.error(format("Error loading spectra of range[%.2f,%.2f] %s", startWave, endWave, file));
             throw new SpectraOutOfRange(startWave, spectra.getMinX(), spectra.getMaxX(), lineId);
         }

@@ -8,7 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.google.common.primitives.Doubles.toArray;
@@ -19,7 +21,7 @@ import static java.lang.String.format;
 
 @Getter
 @Slf4j
-public class Spectra implements Serializable {
+public class Spectra implements Serializable, Cloneable {
 
     @Setter
     private boolean cached = false;
@@ -41,6 +43,14 @@ public class Spectra implements Serializable {
 
     @Setter
     private String spectraName = string();
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        Spectra spectra = new Spectra(Arrays.copyOf(x,x.length), Arrays.copyOf(y,y.length), shift, continuumLevel);
+        spectra.setSpectraName(spectraName);
+        spectra.setInstrument(instrument);
+        return spectra;
+    }
 
     public Spectra(List<Double> x, List<Double> y) {
         this(toArray(x), toArray(y));
