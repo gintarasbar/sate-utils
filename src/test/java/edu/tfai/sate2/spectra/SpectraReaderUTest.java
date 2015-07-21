@@ -41,7 +41,7 @@ public class SpectraReaderUTest {
 
     @Test
     public void testReadSpectraRange() throws Exception {
-        Spectra spectra = spectraReader.readSpectraRange(file, 6295.0800, 6295.1700);
+        Spectra spectra = spectraReader.loadSpectraFileRange(file, 6295.0800, 6295.1700);
         assertThat(spectra.size(), is(10));
         assertThat(spectra.getX(0), closeTo(6295.0800, 0.001));
         assertThat(spectra.getY(0), closeTo(1.100, 0.001));
@@ -97,7 +97,7 @@ public class SpectraReaderUTest {
 
     @Test
     public void testSyntheticSpReadRange() throws Exception {
-        Spectra spectra = spectraReader.loadSpectra(synthSpFile, "TestLine", 3636.084, 3636.708);
+        Spectra spectra = spectraReader.loadSyntheticSpectra(synthSpFile, "TestLine", 3636.084, 3636.708);
         assertThat(spectra.size(), is(27));
         assertThat(spectra.isCached(), is(false));
         spectra = spectraReader.loadSyntheticSpectra(synthSpFile, "TestLine");

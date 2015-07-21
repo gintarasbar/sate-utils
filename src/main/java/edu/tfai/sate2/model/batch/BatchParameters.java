@@ -48,4 +48,6 @@ public class BatchParameters {
 
     public static boolean PREDICT = false;
 
+    public static boolean USE_CACHE = true;
+
 }

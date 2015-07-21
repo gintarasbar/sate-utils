@@ -73,7 +73,7 @@ public abstract class ShiftManager {
 //            System.out.println(smoothedSpectra.getShift() + "  " + val);
         }
 
-        log.info(format("Found shift=%.4f, chi^2=%.5f, range=%s", maxCovShift, minimum, obsSpectra.getRange()));
+        log.debug(format("Found shift=%.4f, chi^2=%.5f, range=%s", maxCovShift, minimum, obsSpectra.getRange()));
         return maxCovShift;
     }
 
