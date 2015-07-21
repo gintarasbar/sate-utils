@@ -23,10 +23,18 @@ public class SpectraReader {
 
 
     public Spectra loadSyntheticSpectra(Path file, String lineId) {
-        Spectra spectra = null;
+        return loadSyntheticSpectra(file, lineId, 0, Double.MAX_VALUE);
+    }
+
+    public Spectra loadSyntheticSpectra(Path file, String lineId, double minWave, double maxWave) {
+        if(!file.toString().endsWith(".xxy")){
+            throw new IllegalArgumentException("This is not synthetic spectra file " + file.toString());
+        }
+
+        Spectra spectra;
         if ((file.toString().endsWith(".xxy") || file.toString().endsWith(".xy"))) {
             try {
-                spectra = loadFile(file);
+                spectra = loadSpectraFileRange(file, minWave, maxWave);
             } catch (Exception e) {
                 log.error("Error loading synthetic spectra {}", e);
                 throw new IllegalStateException("Error while loading synthetic spectra " + file, e);
@@ -43,7 +51,9 @@ public class SpectraReader {
     }
 
     public Spectra loadSpectra(Path file, String lineId, double startWave, double endWave) {
-
+        if(file.toString().endsWith(".xxy")){
+            throw new IllegalArgumentException("Calling synthetic spectra with cache " + file.toString());
+        }
         try {
             Spectra spectra;
             if (USE_CACHE) {
@@ -73,7 +83,7 @@ public class SpectraReader {
 
     private Spectra loadSpectraAndSetFileName(Path file, double startWave, double endWave) throws Exception {
         Spectra spectra;
-        spectra = readSpectraRange(file, startWave, endWave);
+        spectra = loadSpectraFileRange(file, startWave, endWave);
         spectra.setSpectraName(file.toRealPath(LinkOption.NOFOLLOW_LINKS).toString());
         return spectra;
     }
@@ -89,12 +99,12 @@ public class SpectraReader {
         return file.toString() + "_" + (int) Math.floor(startWave) + "_" + (int) Math.ceil(endWave);
     }
 
-    private Spectra loadFile(Path file) throws Exception {
+    private Spectra loadSpectraFile(Path file) throws Exception {
         double[] spectraRange = SpectraFileUtils.getSpectraRange(file);
-        return readSpectraRange(file, spectraRange[0], spectraRange[1]);
+        return loadSpectraFileRange(file, spectraRange[0], spectraRange[1]);
     }
 
-    protected Spectra readSpectraRange(Path file, double startWave, double endWave) throws Exception {
+    protected Spectra loadSpectraFileRange(Path file, double startWave, double endWave) throws Exception {
         int count = SpectraFileUtils.countLines(file, startWave, endWave);
         double x[] = new double[count];
         double y[] = new double[count];
