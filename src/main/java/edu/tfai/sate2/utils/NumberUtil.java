@@ -14,8 +14,6 @@ import java.util.Locale;
 public abstract class NumberUtil {
     private final static Locale defaultLocale = Locale.US;
 
-    private final static SecureRandom random = new SecureRandom();
-
     private final static Converter romanConverter = new Converter();
 
 
@@ -179,7 +177,5 @@ public abstract class NumberUtil {
         return Doubles.tryParse(string.toString());
     }
 
-    public static long nextLong() {
-        return random.nextLong();
-    }
+
 }

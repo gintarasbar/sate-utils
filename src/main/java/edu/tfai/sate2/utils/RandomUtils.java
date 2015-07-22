@@ -14,4 +14,8 @@ public class RandomUtils {
     public static String string() {
         return string(255);
     }
+
+    public static long nextLong() {
+        return random.nextLong();
+    }
 }
