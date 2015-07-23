@@ -50,4 +50,6 @@ public class BatchParameters {
 
     public static boolean USE_CACHE = true;
 
+    public static final int DEFAULT_SMOOTH_FACTOR = 3;
+
 }

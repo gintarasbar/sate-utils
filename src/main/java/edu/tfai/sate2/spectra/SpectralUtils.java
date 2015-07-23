@@ -2,6 +2,7 @@ package edu.tfai.sate2.spectra;
 
 import edu.tfai.sate.eqwidth.ElementOutput;
 import edu.tfai.sate.eqwidth.LineDataOutput;
+import edu.tfai.sate2.model.batch.BatchParameters;
 import edu.tfai.sate2.model.batch.BatchResults;
 import edu.tfai.sate2.utils.NumberUtil;
 import edu.tfai.sate2.signal.Smooth;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static edu.tfai.sate2.model.batch.BatchParameters.DEFAULT_SMOOTH_FACTOR;
+import static edu.tfai.sate2.signal.Smooth.getSmooth;
 import static java.lang.String.format;
 
 @Slf4j
@@ -48,7 +51,7 @@ public class SpectralUtils {
 //        } else {
 //            results.setLineBottom(observedSpectra.getMinPoint().getY());
 //            Double difference = observedSpectra.getMinPoint().getY() - newSpectra.getMinPoint().getY();
-//            results.setDifference(difference);
+//            results.setDifference(difference); 3
 //            val = MathUtil.chiSquare(newSpectra.toArray()[1], observedSpectra.toArray()[1]);
 //        }
         log.debug("Chi2=" + NumberUtil.format(val, 6));
@@ -97,5 +100,12 @@ public class SpectralUtils {
         return series;
     }
 
+    public static Spectra prepareSpectra(Spectra originalSpectra){
+        if (BatchParameters.SMOOTH_ENABLED) {
+            return getSmooth(originalSpectra, DEFAULT_SMOOTH_FACTOR, 1);
+        } else {
+            return originalSpectra.copy();
+        }
+    }
 
 }
