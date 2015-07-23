@@ -30,7 +30,7 @@ public abstract class ShiftManager {
         double shiftStart = -4d;
         double shiftEnd = 4d;
 
-        obsSpectra = removeNegativePoints(obsSpectra);
+        obsSpectra = removeNegativePoints(obsSpectra.copy());
         synthSpectra = removeNegativePoints(synthSpectra);
 
         Spectra smoothedSpectra = getSmooth(obsSpectra, 20, 1);
@@ -50,13 +50,15 @@ public abstract class ShiftManager {
         stopwatch.logTimeDebug("Shift determination");
 
         double totalShift = primaryShift + microShift;
-        log.info(format("Total shift found %.4f", totalShift));
+        log.debug(format("Total shift found %.4f", totalShift));
         return totalShift;
     }
 
     private static double determineShift(Spectra obsSpectra, Spectra synthSpectra, double step, double shiftStart, double shiftEnd, Spectra smoothedSpectra) {
         double maxCovShift = 0;
         double minimum = Double.MAX_VALUE;
+
+        //FIXME implement with the same gradient
         for (double shift = shiftStart; shift < shiftEnd; shift += step) {
             // apply shift for spectra
             if (shift == shiftStart) {

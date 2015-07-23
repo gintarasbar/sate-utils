@@ -73,10 +73,10 @@ public class SpectraReader {
         Spectra spectra = dataCache.retrieve(spectraKey(file, startWave, endWave));
         if (spectra == null) {
             spectra = loadSpectraAndSetFileName(file, startWave, endWave);
-            dataCache.store(spectraKey(file, startWave, endWave), (Spectra) spectra.clone());
+            dataCache.store(spectraKey(file, startWave, endWave), spectra.copy());
         } else {
             spectra.setCached(true);
-            spectra = (Spectra) spectra.clone();
+            spectra = spectra.copy();
         }
         return spectra;
     }

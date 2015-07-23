@@ -90,17 +90,18 @@ public class Spectra implements Serializable, Cloneable {
     }
 
     public Spectra copy() {
-        double x[] = new double[size()];
-        double y[] = new double[size()];
-        for (int i = 0; i < size(); i++) {
-            x[i] = this.x[i];
-            y[i] = this.y[i];
+        try {
+            return (Spectra) clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("Cannot clone spectra " + spectraName);
         }
-        return new Spectra(x, y, shift, continuumLevel);
     }
 
-
     public void applyContinuumLevel(double factor) {
+        if(factor==1.0){
+            return;
+        }
+
         for (int i = 0; i < size(); i++) {
             y[i] *= factor;
         }
@@ -109,6 +110,9 @@ public class Spectra implements Serializable, Cloneable {
     }
 
     public void shift(double shift) {
+        if(shift==0.0){
+            return;
+        }
 //        if (AdminManager.getInstance().hasNOISE) {
 //            log.info("Noise detected in the signal while shift");
 //            getNoiseLevel(this.y, NOISE_LEVEL);

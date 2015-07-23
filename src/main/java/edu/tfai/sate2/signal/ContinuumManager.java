@@ -24,7 +24,7 @@ public abstract class ContinuumManager {
 //            log.info(format("Continuum fix1:%.4f", mult1));
 //            return mult1;
 //        }
-        log.info(format("Continuum fix2:%.4f", mult2));
+        log.debug(format("Continuum fix2:%.4f", mult2));
         return mult2;
     }
 
