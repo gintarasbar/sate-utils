@@ -7,12 +7,13 @@ import edu.tfai.sate2.model.batch.BatchParameters;
 import edu.tfai.sate2.model.batch.BatchResults;
 import edu.tfai.sate2.spectra.Profile;
 import edu.tfai.sate2.spectra.Spectra;
-import edu.tfai.sate2.spectra.SpectralUtils;
 import edu.tfai.sate2.utils.LeastSquareUtil;
 import edu.tfai.sate2.utils.Stopwatch;
 import lombok.extern.slf4j.Slf4j;
-
-import javax.sound.sampled.Line;
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.optim.MaxEval;
+import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
+import org.apache.commons.math3.optim.univariate.*;
 
 import static edu.tfai.sate.objects.Element.getIdentification;
 import static edu.tfai.sate2.signal.Smooth.getSmooth;
@@ -22,13 +23,16 @@ import static java.lang.String.format;
 @Slf4j
 public abstract class ShiftManager {
 
+    public static final double SHIFT_START = -4d;
+    public static final double SHIFT_END = 4d;
+
     public static double getShift(LineData line, Spectra obsSpectra, Spectra synthSpectra) {
 
         Stopwatch stopwatch = Stopwatch.getInstance();
 
-        double step = BatchParameters.SHIFT_STEP;
-        double shiftStart = -4d;
-        double shiftEnd = 4d;
+         double step = BatchParameters.SHIFT_STEP;
+        double shiftStart = SHIFT_START;
+        double shiftEnd = SHIFT_END;
 
         obsSpectra = removeNegativePoints(obsSpectra.copy());
         synthSpectra = removeNegativePoints(synthSpectra);
@@ -52,6 +56,7 @@ public abstract class ShiftManager {
         double totalShift = primaryShift + microShift;
         log.debug(format("Total shift found %.4f", totalShift));
         return totalShift;
+//        return determineShift2(synthSpectra, smoothedSpectra);
     }
 
     private static double determineShift(Spectra obsSpectra, Spectra synthSpectra, double step, double shiftStart, double shiftEnd, Spectra smoothedSpectra) {
@@ -79,6 +84,33 @@ public abstract class ShiftManager {
         return maxCovShift;
     }
 
+//    private static double determineShift2(final Spectra synthSpectra, final Spectra smoothedSpectra) {
+//
+//        double relativeThreshold = 1e-6;
+//        double absoluteThreshold = 1e-3;
+//
+//        UnivariateFunction f = new UnivariateFunction() {
+//            private double previousShift = 0;
+//
+//            @Override
+//            public double value(double shift) {
+//                smoothedSpectra.shift(-previousShift + shift);
+//                previousShift = shift;
+//                double value = LeastSquareUtil.squareDifferenceStDev(smoothedSpectra, synthSpectra);
+//                log.info("Shifting {} value {}", shift, value);
+//                return value;
+//            }
+//        };
+//
+//        UnivariateOptimizer optimizer = new BrentOptimizer(relativeThreshold, absoluteThreshold);
+//        UnivariatePointValuePair optimize = optimizer.optimize(new MaxEval(50),
+//                new UnivariateObjectiveFunction(f),
+//                GoalType.MINIMIZE,
+//                new SearchInterval(-4, 4));
+//        double estimatedShift = optimize.getPoint();
+//        double error = optimize.getValue();
+//        return estimatedShift;
+//    }
 
     public static double smallShiftCorrection(LineData line, Spectra observed, Spectra synthetic2,
                                               double[] waves) throws Exception {

@@ -3,7 +3,7 @@ package edu.tfai.sate2.model.batch;
 import edu.tfai.sate2.spectra.Spectra;
 import lombok.Data;
 
-import static edu.tfai.sate2.utils.RadialVelocityUtil.radialVelocityToShift;
+import static edu.tfai.sate2.utils.RadialVelocityUtil.shiftToRadialVelocity;
 
 @Data
 public class BatchResults implements Cloneable {
@@ -31,7 +31,9 @@ public class BatchResults implements Cloneable {
 
     protected Double difference;
 
-    protected double radialVel;
+    protected double derivedRadialVelocity;
+
+    protected double realRadialVelocity;
 
     protected float wavelength;
 
@@ -52,7 +54,7 @@ public class BatchResults implements Cloneable {
 
     public void setShift(double shift) {
         this.shift = shift;
-        this.radialVel = radialVelocityToShift(wavelength, shift);
+        this.derivedRadialVelocity = shiftToRadialVelocity(wavelength, shift);
     }
 
     public void setLineRange(double start, double end) {
