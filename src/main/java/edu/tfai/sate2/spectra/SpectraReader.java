@@ -19,7 +19,7 @@ import static java.lang.String.format;
 @Singleton
 @Slf4j
 public class SpectraReader {
-    private static DataCache<Spectra> dataCache = new DataCache<Spectra>(3, TimeUnit.HOURS, null);
+    private static DataCache<Spectra> dataCache = new DataCache<Spectra>(1, TimeUnit.DAYS);
 
 
     public Spectra loadSyntheticSpectra(Path file, String lineId) {
@@ -181,7 +181,7 @@ public class SpectraReader {
 
     public void dispose() {
         dataCache.clearCache();
-        dataCache = new DataCache<Spectra>(3, TimeUnit.HOURS, null);
+        dataCache = new DataCache<Spectra>(1, TimeUnit.DAYS);
     }
 
 }

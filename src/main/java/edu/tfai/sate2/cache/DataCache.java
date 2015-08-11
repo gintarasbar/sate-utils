@@ -1,14 +1,18 @@
 package edu.tfai.sate2.cache;
 
+import com.google.common.base.Optional;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.io.Files;
 import edu.tfai.sate2.parsers.XMLParser;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.LocalDateTime;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
@@ -21,7 +25,7 @@ public class DataCache<T> {
 
     private final Cache<String, T> cache;
 
-    private final String fileToStore;
+    private final Optional<String> fileToStore;
 
     private final int timeToLiveHours;
 
@@ -32,7 +36,11 @@ public class DataCache<T> {
         private final T record;
     }
 
-    public DataCache(long timeToLive, TimeUnit timeUnit, String fileToStore) {
+    public DataCache(long timeToLive, TimeUnit timeUnit) {
+        this(timeToLive, timeUnit, Optional.<String>absent());
+    }
+
+    public DataCache(long timeToLive, TimeUnit timeUnit, Optional<String> fileToStore) {
         timeToLiveHours = (int) timeUnit.toHours(timeToLive);
         cache = CacheBuilder.newBuilder()
                 .maximumSize(1000)
@@ -45,12 +53,13 @@ public class DataCache<T> {
         loadCache(fileToStore);
     }
 
-    private void loadCache(String fileToStore) {
-        if (fileToStore == null)
+    private void loadCache(Optional<String> fileToStore) {
+        if (!fileToStore.isPresent()) {
             return;
+        }
         XMLParser xstream = new XMLParser();
         try {
-            FileInputStream in = new FileInputStream(fileToStore);
+            FileInputStream in = new FileInputStream(fileToStore.get());
             List<StoreRecord> obj = (List<StoreRecord>) xstream.fromXML(in);
             for (StoreRecord<T> record : obj) {
                 LocalDateTime expireTime = record.getTimeStamp().plusSeconds(timeToLiveHours);
@@ -64,13 +73,14 @@ public class DataCache<T> {
     }
 
 
-    private void storeCache(String fileToStore) {
-        if (fileToStore == null)
+    private void storeCache(Optional<String> fileToStore) {
+        if (!fileToStore.isPresent()) {
             return;
+        }
         XMLParser xstream = new XMLParser();
         List<StoreRecord> storeList = newArrayList();
         try {
-            FileOutputStream fos = new FileOutputStream(fileToStore);
+            FileOutputStream fos = new FileOutputStream(fileToStore.get());
             ConcurrentMap<String, T> map = cache.asMap();
             for (String key : map.keySet()) {
                 storeList.add(new StoreRecord(now(), key, map.get(key)));

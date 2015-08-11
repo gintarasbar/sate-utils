@@ -5,6 +5,8 @@ import com.google.common.base.Strings;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Floats;
 import com.google.common.primitives.Ints;
+import nl.tudelft.simulation.dsol.interpreter.operations.RETURN;
+import nl.tudelft.simulation.dsol.simulators.RealTimeClock;
 
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
@@ -18,7 +20,7 @@ public abstract class NumberUtil {
 
 
     public static boolean stringIsNan(String string) {
-        if (string.equalsIgnoreCase("nan"))
+        if (string.toLowerCase().contains("nan"))
             return true;
         double wave = Double.parseDouble(string);
         if (Double.isNaN(wave)) {
@@ -27,23 +29,21 @@ public abstract class NumberUtil {
         return false;
     }
 
-    /**
-     * Formats float
-     *
-     * @param number          number to format
-     * @param precisionPlaces number after the comma
-     * @return formated string
-     */
     public static String format(Number number, int precisionPlaces) {
-        if (number == null) {
-            return "X.X";
-        }
-        return String.format(defaultLocale, "%." + precisionPlaces + "f", number);
+        return format(number, precisionPlaces,"X.X");
     }
 
     public static String formatWithNull(Number number, int precisionPlaces) {
+        return format(number, precisionPlaces,"null");
+    }
+
+    public static String formatWithNA(Number number, int precisionPlaces) {
+        return format(number, precisionPlaces,"NA");
+    }
+
+    public static String format(Number number, int precisionPlaces, String nullSymbol) {
         if (number == null) {
-            return "null";
+            return nullSymbol;
         }
         return String.format(defaultLocale, "%." + precisionPlaces + "f", number);
     }
