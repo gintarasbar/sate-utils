@@ -100,10 +100,14 @@ public class DataCache<T> {
         storeCache(fileToStore);
     }
 
-    public T retrieve(String messageId) {
+    public Optional<T> retrieve(String messageId) {
         T ifPresent = cache.getIfPresent(messageId);
         log.debug("Retrieved from cache:" + messageId + " Object:" + ifPresent);
-        return ifPresent;
+        return Optional.fromNullable(ifPresent);
+    }
+
+    public boolean exists(String messageId) {
+        return retrieve(messageId).isPresent();
     }
 
     public void clearCache() {

@@ -1,5 +1,6 @@
 package edu.tfai.sate2.spectra;
 
+import com.google.common.base.Optional;
 import com.google.inject.Singleton;
 import edu.tfai.sate2.cache.DataCache;
 import edu.tfai.sate2.exceptions.SpectraOutOfRange;
@@ -11,6 +12,7 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
+import static com.google.common.base.Optional.of;
 import static edu.tfai.sate2.model.batch.BatchParameters.USE_CACHE;
 import static edu.tfai.sate2.utils.NumberUtil.stringIsNan;
 import static java.lang.Double.parseDouble;
@@ -27,7 +29,7 @@ public class SpectraReader {
     }
 
     public Spectra loadSyntheticSpectra(Path file, String lineId, double minWave, double maxWave) {
-        if(!file.toString().endsWith(".xxy")){
+        if (!file.toString().endsWith(".xxy")) {
             throw new IllegalArgumentException("This is not synthetic spectra file " + file.toString());
         }
 
@@ -51,7 +53,7 @@ public class SpectraReader {
     }
 
     public Spectra loadSpectra(Path file, String lineId, double startWave, double endWave) {
-        if(file.toString().endsWith(".xxy")){
+        if (file.toString().endsWith(".xxy")) {
             throw new IllegalArgumentException("Calling synthetic spectra with cache " + file.toString());
         }
         try {
@@ -70,15 +72,15 @@ public class SpectraReader {
     }
 
     private Spectra loadSpectraFromCache(Path file, double startWave, double endWave) throws Exception {
-        Spectra spectra = dataCache.retrieve(spectraKey(file, startWave, endWave));
-        if (spectra == null) {
-            spectra = loadSpectraAndSetFileName(file, startWave, endWave);
-            dataCache.store(spectraKey(file, startWave, endWave), spectra.copy());
+        Optional<Spectra> spectra = dataCache.retrieve(spectraKey(file, startWave, endWave));
+        if (!spectra.isPresent()) {
+            spectra = of(loadSpectraAndSetFileName(file, startWave, endWave));
+            dataCache.store(spectraKey(file, startWave, endWave), spectra.get().copy());
         } else {
-            spectra.setCached(true);
-            spectra = spectra.copy();
+            spectra.get().setCached(true);
+            spectra = of(spectra.get().copy());
         }
-        return spectra;
+        return spectra.get();
     }
 
     private Spectra loadSpectraAndSetFileName(Path file, double startWave, double endWave) throws Exception {
