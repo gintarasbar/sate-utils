@@ -29,13 +29,6 @@ public class DataCache<T> {
 
     private final int timeToLiveHours;
 
-    @Data
-    class StoreRecord<T> {
-        private final LocalDateTime timeStamp;
-        private final String key;
-        private final T record;
-    }
-
     public DataCache(long timeToLive, TimeUnit timeUnit) {
         this(timeToLive, timeUnit, Optional.<String>absent());
     }
@@ -72,7 +65,6 @@ public class DataCache<T> {
         }
     }
 
-
     private void storeCache(Optional<String> fileToStore) {
         if (!fileToStore.isPresent()) {
             return;
@@ -93,7 +85,6 @@ public class DataCache<T> {
         }
     }
 
-
     public void store(String messageId, T entry) {
         log.debug("Storing to cache:" + messageId + " Object:" + entry);
         cache.put(messageId, entry);
@@ -113,5 +104,12 @@ public class DataCache<T> {
     public void clearCache() {
         cache.cleanUp();
         log.debug("Cache cleaned up");
+    }
+
+    @Data
+    class StoreRecord<T> {
+        private final LocalDateTime timeStamp;
+        private final String key;
+        private final T record;
     }
 }

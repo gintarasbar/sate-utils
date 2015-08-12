@@ -30,15 +30,15 @@ public abstract class NumberUtil {
     }
 
     public static String format(Number number, int precisionPlaces) {
-        return format(number, precisionPlaces,"X.X");
+        return format(number, precisionPlaces, "X.X");
     }
 
     public static String formatWithNull(Number number, int precisionPlaces) {
-        return format(number, precisionPlaces,"null");
+        return format(number, precisionPlaces, "null");
     }
 
     public static String formatWithNA(Number number, int precisionPlaces) {
-        return format(number, precisionPlaces,"NA");
+        return format(number, precisionPlaces, "NA");
     }
 
     public static String format(Number number, int precisionPlaces, String nullSymbol) {
