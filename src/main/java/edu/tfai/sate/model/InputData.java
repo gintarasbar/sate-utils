@@ -1,4 +1,4 @@
-package edu.tfai.sate.objects;
+package edu.tfai.sate.model;
 
 import edu.tfai.sate.swing.MyTableModel;
 import lombok.Data;

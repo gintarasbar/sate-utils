@@ -1,4 +1,4 @@
-package edu.tfai.sate.objects;
+package edu.tfai.sate.model;
 
 import edu.tfai.sate.swing.RowData;
 import edu.tfai.sate2.utils.NumberUtil;
@@ -22,93 +22,74 @@ public class LineData  implements RowData, Cloneable  {
     protected  Float wavelength;
 
     protected Element elementReference;
-
-    /**
-     * Comment to the line
-     */
-    private String comment = "";
-
-    /**
-     * Shift of the line
-     */
-    private Double shift = null;
-
-    /**
-     * Flag showing if line was edited
-     */
-    private boolean edited = false;
-
-    /**
-     * Instrumental instrumentalProfile
-     */
-    private int instrumentalProfile = 80;
-
-    /**
-     * Instrumental instrumentalProfile
-     */
-    private Double evaluatedAbundance = null;
-
-    /**
-     * Is line included
-     */
-    private boolean included = true;
-
-
-    /**
-     * Lower level excitation potential
-     */
-    private Float chi_l;
-
-    /**
-     * Log gf
-     */
-    private Float log_gf;
-
-    /**
-     * vad der Waals constant
-     */
-    private Float FDAMP;
-
-    /**
-     * Gamrad
-     */
-    private Float gamrad;
-
-    /**
-     * Equivalent width
-     */
-    private Float eqwidth;
-
-    /**
-     * Retrieval error, due to wavelength shift
-     */
-    private Float gurtovenkoError = 0.0f;
-
-    /**
-     * Vald error
-     */
-    private Float valdError = 0.0f;
-
     /**
      * Error. Fixed value.
      */
     Float err = 1.0f;
-
     /**
      * Transition
      */
     String transition;
-
     /**
      * Full transition
      */
     String fullTransition;
-
     /**
      * Line deleted
      */
     String deleted;
-
+    /**
+     * Comment to the line
+     */
+    private String comment = "";
+    /**
+     * Shift of the line
+     */
+    private Double shift = null;
+    /**
+     * Flag showing if line was edited
+     */
+    private boolean edited = false;
+    /**
+     * Instrumental instrumentalProfile
+     */
+    private int instrumentalProfile = 80;
+    /**
+     * Instrumental instrumentalProfile
+     */
+    private Double evaluatedAbundance = null;
+    /**
+     * Is line included
+     */
+    private boolean included = true;
+    /**
+     * Lower level excitation potential
+     */
+    private Float chi_l;
+    /**
+     * Log gf
+     */
+    private Float log_gf;
+    /**
+     * vad der Waals constant
+     */
+    private Float FDAMP;
+    /**
+     * Gamrad
+     */
+    private Float gamrad;
+    /**
+     * Equivalent width
+     */
+    private Float eqwidth;
+    /**
+     * Retrieval error, due to wavelength shift
+     */
+    private Float gurtovenkoError = 0.0f;
+    /**
+     * Vald error
+     */
+    private Float valdError = 0.0f;
     /**
      * Use extra shift to center the line
      */

@@ -1,10 +1,10 @@
 package edu.tfai.sate2.spectra;
 
 import edu.tfai.sate2.exceptions.SpectraOutOfRange;
-import edu.tfai.sate.objects.LineData;
+import edu.tfai.sate.model.LineData;
 import lombok.extern.slf4j.Slf4j;
 
-import static edu.tfai.sate.objects.Element.getIdentification;
+import static edu.tfai.sate.model.Element.getIdentification;
 import static edu.tfai.sate2.utils.BinarySearch.search;
 import static java.lang.String.format;
 

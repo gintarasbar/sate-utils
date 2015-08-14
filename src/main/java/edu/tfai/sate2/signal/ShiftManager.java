@@ -1,21 +1,19 @@
 package edu.tfai.sate2.signal;
 
 
-import edu.tfai.sate.objects.LineData;
+import edu.tfai.sate.model.LineData;
 import edu.tfai.sate2.exceptions.IllegalShiftDetected;
 import edu.tfai.sate2.model.batch.BatchParameters;
 import edu.tfai.sate2.model.batch.BatchResults;
 import edu.tfai.sate2.spectra.Profile;
 import edu.tfai.sate2.spectra.Spectra;
 import edu.tfai.sate2.utils.LeastSquareUtil;
+import edu.tfai.sate2.utils.RadialVelocityUtil;
 import edu.tfai.sate2.utils.Stopwatch;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.optim.MaxEval;
-import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.math3.optim.univariate.*;
+import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 
-import static edu.tfai.sate.objects.Element.getIdentification;
+import static edu.tfai.sate.model.Element.getIdentification;
 import static edu.tfai.sate2.signal.Smooth.getSmooth;
 import static edu.tfai.sate2.spectra.SpectralUtils.removeNegativePoints;
 import static java.lang.String.format;
@@ -30,7 +28,7 @@ public abstract class ShiftManager {
 
         Stopwatch stopwatch = Stopwatch.getInstance();
 
-         double step = BatchParameters.SHIFT_STEP;
+        double step = BatchParameters.SHIFT_STEP;
         double shiftStart = SHIFT_START;
         double shiftEnd = SHIFT_END;
 
@@ -39,33 +37,36 @@ public abstract class ShiftManager {
 
         Spectra smoothedSpectra = getSmooth(obsSpectra, 20, 1);
 
-        double primaryShift = determineShift(obsSpectra, synthSpectra, step, shiftStart, shiftEnd, smoothedSpectra);
-        //TODO store star and shift for each line in cache, key spectraFile+Element+line
+        double primaryShift = determineShift(synthSpectra, step, shiftStart, shiftEnd, smoothedSpectra);
+
         if (primaryShift <= shiftStart || primaryShift >= shiftEnd) {
-            //FIXME mean velocity should go here instead of zero
-            throw new IllegalShiftDetected(line.getWavelength(), primaryShift, 0, new BatchResults(getIdentification(line), line.getWavelength()));
+            throw new IllegalShiftDetected(line.getWavelength(), primaryShift, RadialVelocityUtil.shiftToRadialVelocity(line.getWavelength(), primaryShift), new BatchResults(getIdentification(line), line.getWavelength()));
         }
 
         double microShift = 0;
         if (obsSpectra.getStep() < step) {
             smoothedSpectra.shift(-shiftEnd + primaryShift);
-            microShift = determineShift(obsSpectra, synthSpectra, obsSpectra.getStep() / 2.0d, -step * 2, step * 2, smoothedSpectra);
+//            microShift = determineShift(obsSpectra, synthSpectra, obsSpectra.getStep() / 2.0d, -step * 2, step * 2, smoothedSpectra);
+            try {
+                microShift = smallShiftCorrection(line, obsSpectra, synthSpectra);
+            } catch (Exception e) {
+                log.error("Microshift failed {}", e);
+                microShift = 0;
+            }
         }
         stopwatch.logTimeDebug("Shift determination");
 
         double totalShift = primaryShift + microShift;
         log.debug(format("Total shift found %.4f", totalShift));
         return totalShift;
-//        return determineShift2(synthSpectra, smoothedSpectra);
     }
 
-    private static double determineShift(Spectra obsSpectra, Spectra synthSpectra, double step, double shiftStart, double shiftEnd, Spectra smoothedSpectra) {
+    private static double determineShift(Spectra synthSpectra, double step, double shiftStart, double shiftEnd, Spectra smoothedSpectra) {
         double maxCovShift = 0;
         double minimum = Double.MAX_VALUE;
 
-        //FIXME implement with the same gradient
         for (double shift = shiftStart; shift < shiftEnd; shift += step) {
-            // apply shift for spectra
+            // applying shift for spectra
             if (shift == shiftStart) {
                 smoothedSpectra.shift(shift);
             } else {
@@ -77,55 +78,25 @@ public abstract class ShiftManager {
                 minimum = val;
                 maxCovShift = shift;
             }
-//            System.out.println(smoothedSpectra.getShift() + "  " + val);
         }
 
-        log.debug(format("Found shift=%.4f, chi^2=%.5f, range=%s", maxCovShift, minimum, obsSpectra.getRange()));
+        log.debug(format("Found shift=%.4f, chi^2=%.5f, range=%s", maxCovShift, minimum, smoothedSpectra.getRange()));
         return maxCovShift;
     }
 
-//    private static double determineShift2(final Spectra synthSpectra, final Spectra smoothedSpectra) {
-//
-//        double relativeThreshold = 1e-6;
-//        double absoluteThreshold = 1e-3;
-//
-//        UnivariateFunction f = new UnivariateFunction() {
-//            private double previousShift = 0;
-//
-//            @Override
-//            public double value(double shift) {
-//                smoothedSpectra.shift(-previousShift + shift);
-//                previousShift = shift;
-//                double value = LeastSquareUtil.squareDifferenceStDev(smoothedSpectra, synthSpectra);
-//                log.info("Shifting {} value {}", shift, value);
-//                return value;
-//            }
-//        };
-//
-//        UnivariateOptimizer optimizer = new BrentOptimizer(relativeThreshold, absoluteThreshold);
-//        UnivariatePointValuePair optimize = optimizer.optimize(new MaxEval(50),
-//                new UnivariateObjectiveFunction(f),
-//                GoalType.MINIMIZE,
-//                new SearchInterval(-4, 4));
-//        double estimatedShift = optimize.getPoint();
-//        double error = optimize.getValue();
-//        return estimatedShift;
-//    }
-
-    public static double smallShiftCorrection(LineData line, Spectra observed, Spectra synthetic2,
-                                              double[] waves) throws Exception {
+    private static double smallShiftCorrection(LineData line, Spectra observed, Spectra synthetic) throws Exception {
         double shift = 0.0d;
         if (line.isUseExtraShift()) {
 
             try {
-                Spectra obsSmooth = Smooth.getSmooth(observed, 20, 1);
-                obsSmooth = Profile.extractSpectra(waves[0], waves[1], obsSmooth);
-                double center = Profile.getCenterWavelength(line, obsSmooth);
-                double center2 = Profile.getCenterWavelength(line, synthetic2);
+                double center2 = Profile.getCenterWavelength(line, synthetic);
+                double center = Profile.getCenterWavelength(line, observed);
+                observed = Profile.extractProfile(line, observed);
                 shift = center2 - center;
                 log.debug(format("Extra shift1:%.5f, range=%s, obsCenter=%.3f, synthCenter=%.3f", shift,
-                        obsSmooth.getRange(), center, center2));
-                if (Math.abs(shift) <= 0.001d || Math.abs(shift) > 0.15d) {
+                        observed.getRange(), center, center2));
+                if (Math.abs(shift) > 0.15d) {
+                    log.info(format("Found extraShift exceeded=%.4f", shift));
                     shift = 0.0d;
                 }
             } catch (Exception e) {
@@ -136,7 +107,7 @@ public abstract class ShiftManager {
             }
         }
 
-        //log.info(format("Found extraShift=%.4f", shift));
+        // log.info(format("Found extraShift=%.4f", shift));
         return shift;
     }
 }

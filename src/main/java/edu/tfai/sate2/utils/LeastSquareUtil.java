@@ -45,6 +45,13 @@ public class LeastSquareUtil {
         return abs(stat.getStandardDeviation());
     }
 
+    private static boolean inRange(PolynomialSplineFunction function, double x) {
+        double[] knots = function.getKnots();
+        double p1 = knots[0];
+        double p2 = knots[knots.length - 1];
+        return x >= p1 && x <= p2;
+    }
+
     @Data
     private static class SmoothedSpectra {
         private final Spectra obsSpectra;
@@ -67,7 +74,7 @@ public class LeastSquareUtil {
             for (int i = 0; i < obsSpectra.size(); i++) {
                 double x = obsSpectra.getX(i);
                 double y = obsSpectra.getY(i);
-                if (syntheticSpectra.isInRange(x) && y > 0.0001) {
+                if (inRange(function, x) && y > 0.0001) {
                     xValues.add(x);
                     newSynthSpectraYValues.add(function.value(x));
                     newObservedSpectraYValues.add(obsSpectra.getY(i));

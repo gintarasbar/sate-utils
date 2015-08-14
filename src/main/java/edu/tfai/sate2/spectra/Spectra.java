@@ -23,17 +23,12 @@ import static java.lang.String.format;
 @Slf4j
 public class Spectra implements Serializable, Cloneable {
 
+    private final double[] x;
+    private final double[] y;
     @Setter
     private boolean cached = false;
-
     private DescriptiveStatistics yStats;
-
     private DescriptiveStatistics xStats;
-
-    private final double[] x;
-
-    private final double[] y;
-
     private double shift = 0;
 
     private double continuumLevel = 1.0;
@@ -43,14 +38,6 @@ public class Spectra implements Serializable, Cloneable {
 
     @Setter
     private String spectraName = string();
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        Spectra spectra = new Spectra(Arrays.copyOf(x,x.length), Arrays.copyOf(y,y.length), shift, continuumLevel);
-        spectra.setSpectraName(spectraName);
-        spectra.setInstrument(instrument);
-        return spectra;
-    }
 
     public Spectra(List<Double> x, List<Double> y) {
         this(toArray(x), toArray(y));
@@ -75,6 +62,14 @@ public class Spectra implements Serializable, Cloneable {
         recalculateStatistics();
     }
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        Spectra spectra = new Spectra(Arrays.copyOf(x, x.length), Arrays.copyOf(y, y.length), shift, continuumLevel);
+        spectra.setSpectraName(spectraName);
+        spectra.setInstrument(instrument);
+        return spectra;
+    }
+
     public void recalculateStatistics() {
         yStats = new DescriptiveStatistics(y);
         xStats = new DescriptiveStatistics(x);
@@ -86,7 +81,7 @@ public class Spectra implements Serializable, Cloneable {
         }
         Spectra newSpectra = new Spectra(Arrays.copyOfRange(x, start, Math.min(end + 1, size())), Arrays.copyOfRange(y, start, Math.min(end + 1, size())), shift, continuumLevel);
         newSpectra.setCached(cached);
-        return  newSpectra;
+        return newSpectra;
     }
 
     public Spectra copy() {
@@ -98,7 +93,7 @@ public class Spectra implements Serializable, Cloneable {
     }
 
     public void applyContinuumLevel(double factor) {
-        if(factor==1.0){
+        if (factor == 1.0) {
             return;
         }
 
@@ -110,7 +105,7 @@ public class Spectra implements Serializable, Cloneable {
     }
 
     public void shift(double shift) {
-        if(shift==0.0){
+        if (shift == 0.0) {
             return;
         }
 //        if (AdminManager.getInstance().hasNOISE) {
@@ -174,7 +169,7 @@ public class Spectra implements Serializable, Cloneable {
     }
 
     public double getStep() {
-        return x[1] - x[0];
+        return Math.min(x[1] - x[0], x[x.length - 1] - x[x.length - 2]);
     }
 
     public int getResolution() {

@@ -7,38 +7,22 @@ import static edu.tfai.sate2.utils.RadialVelocityUtil.shiftToRadialVelocity;
 
 @Data
 public class BatchResults implements Cloneable {
-    private Spectra spectra;
-
-    private double abundance;
-
-    private double shift;
-
-    private double estimatedAbundance;
-
-    private double chi2Error;
-
-    private double continuumFix = 1.0;
-
-    private int iterations;
-
     protected String lineRange;
-
     protected Double[] range = new Double[2];
-
     protected double lineWidth;
-
     protected Double lineBottom;
-
     protected Double difference;
-
     protected double derivedRadialVelocity;
-
     protected double realRadialVelocity;
-
     protected float wavelength;
-
     protected String idenfitication;
-
+    private Spectra spectra;
+    private double abundance;
+    private double shift;
+    private Double estimatedAbundance;
+    private double chi2Error;
+    private double continuumFix = 1.0;
+    private int iterations;
     private int thread;
 
     private double SnRatio;

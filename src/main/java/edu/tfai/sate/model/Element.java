@@ -1,4 +1,4 @@
-package edu.tfai.sate.objects;
+package edu.tfai.sate.model;
 
 import edu.tfai.sate2.utils.NumberUtil;
 import lombok.Getter;
@@ -14,20 +14,16 @@ import java.util.*;
  */
 public class Element implements Serializable, Cloneable {
     private static final long serialVersionUID = -6843330694519646713L;
-
+    @Getter
+    private final String symbol;
+    @Getter
+    private final int ion;
     /**
      * Element number
      */
     @Getter
     @Setter
     private int elementNumber;
-
-    @Getter
-    private final String symbol;
-
-    @Getter
-    private final int ion;
-
     private Double meanAbundance = null;
 
     @Setter
@@ -63,23 +59,19 @@ public class Element implements Serializable, Cloneable {
 
 
 
-    public String getIdentification() {
-        return getSymbol() + "_" + getIonRomain();
-    }
-
-    /**
-     * Gets ionRomain value
-     *
-     * @return ionRomain value
-     */
-    public String getIonRomain() {
-        return NumberUtil.convertToRomain(ion);
-    }
-
     public Element(String symbol, int ion, int elementNumber){
         this.elementNumber = elementNumber;
         this.symbol = symbol;
         this.ion = ion;
+    }
+
+    public static String getIdentification(LineData line) {
+        return line != null && line.getElementReference() != null ? line.getElementReference()
+                .getIdentification() : "null";
+    }
+
+    public String getIdentification() {
+        return getSymbol() + "_" + getIonRomain();
     }
 
 //    public int getElementNumber() {
@@ -93,6 +85,15 @@ public class Element implements Serializable, Cloneable {
 //    }
 
     /**
+     * Gets ionRomain value
+     *
+     * @return ionRomain value
+     */
+    public String getIonRomain() {
+        return NumberUtil.convertToRomain(ion);
+    }
+
+    /**
      * Sets abundance value
      *
      * @param abundance abundance value
@@ -100,7 +101,6 @@ public class Element implements Serializable, Cloneable {
     public void setAbundance(Float abundance) {
         this.abundance = abundance;
     }
-
 
     /**
      * Gets lines value
@@ -193,12 +193,12 @@ public class Element implements Serializable, Cloneable {
         return NumberUtil.format(meanAbundance.floatValue(), 2);
     }
 
-    public Double getMeanAbundanceNumber() {
-        return meanAbundance;
-    }
-
     public void setMeanAbundance(Double meanAbundance) {
         this.meanAbundance = meanAbundance;
+    }
+
+    public Double getMeanAbundanceNumber() {
+        return meanAbundance;
     }
 
     public String getStdDevAbund() {
@@ -207,12 +207,12 @@ public class Element implements Serializable, Cloneable {
         return NumberUtil.format(stdDevAbund.floatValue(), 2);
     }
 
-    public Double getStdDevAbundNumber() {
-        return stdDevAbund;
-    }
-
     public void setStdDevAbund(Double stdDev) {
         this.stdDevAbund = stdDev;
+    }
+
+    public Double getStdDevAbundNumber() {
+        return stdDevAbund;
     }
 
     /**
@@ -304,10 +304,5 @@ public class Element implements Serializable, Cloneable {
 
     public LineData getLine(Float lineWave) {
         return lineHash.get(String.format("%.3f", lineWave));
-    }
-
-    public static String getIdentification(LineData line) {
-        return line != null && line.getElementReference() != null ? line.getElementReference()
-                .getIdentification() : "null";
     }
 }
