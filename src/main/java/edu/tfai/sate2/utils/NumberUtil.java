@@ -45,7 +45,11 @@ public abstract class NumberUtil {
         if (number == null) {
             return nullSymbol;
         }
-        return String.format(defaultLocale, "%." + precisionPlaces + "f", number);
+        if (precisionPlaces == 0) {
+            return String.format("%s", Math.round(number.doubleValue()));
+        } else {
+            return String.format(defaultLocale, "%." + precisionPlaces + "f", number);
+        }
     }
 
     /**
@@ -122,7 +126,6 @@ public abstract class NumberUtil {
 
     /**
      * Calculates gamrad
-     *
      */
     public static float getGamrad(float rad) {
         return (float) Math.pow(10, rad);
