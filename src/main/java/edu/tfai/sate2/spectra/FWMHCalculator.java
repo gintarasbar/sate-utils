@@ -1,10 +1,11 @@
 package edu.tfai.sate2.spectra;
 
-import edu.tfai.sate2.utils.Stopwatch;
+import com.google.common.base.Stopwatch;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.math3.fitting.GaussianCurveFitter;
 import org.apache.commons.math3.fitting.WeightedObservedPoints;
 
+import static edu.tfai.sate2.utils.TimeUtils.formatTime;
 import static java.lang.String.format;
 
 
@@ -30,7 +31,7 @@ public class FWMHCalculator {
     private static double[] fitGaussian(Spectra spectra, double centerWave, String lineId) {
 
         try {
-            Stopwatch instance = Stopwatch.getInstance();
+            Stopwatch stopwatch = Stopwatch.createStarted();
 
             GaussianCurveFitter fitter = GaussianCurveFitter.create();
             WeightedObservedPoints obs = new WeightedObservedPoints();
@@ -39,7 +40,7 @@ public class FWMHCalculator {
             }
             double[] parameters = fitter.fit(obs.toList());
             //A, B, C, and D which are, respectively, y offset, amplitude, centroid position, and sigma.
-            instance.logTimeDebug("Gauss calculation");
+            log.debug("Gauss calculation time=%s", formatTime(stopwatch));
             return parameters;
         } catch (Exception e) {
             log.error("gauss error", e);

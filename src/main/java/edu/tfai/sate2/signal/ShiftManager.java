@@ -1,6 +1,7 @@
 package edu.tfai.sate2.signal;
 
 
+import com.google.common.base.Stopwatch;
 import edu.tfai.sate.model.LineData;
 import edu.tfai.sate2.exceptions.IllegalShiftDetected;
 import edu.tfai.sate2.model.batch.BatchParameters;
@@ -9,13 +10,12 @@ import edu.tfai.sate2.spectra.Profile;
 import edu.tfai.sate2.spectra.Spectra;
 import edu.tfai.sate2.utils.LeastSquareUtil;
 import edu.tfai.sate2.utils.RadialVelocityUtil;
-import edu.tfai.sate2.utils.Stopwatch;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 
 import static edu.tfai.sate.model.Element.getIdentification;
 import static edu.tfai.sate2.signal.Smooth.getSmooth;
 import static edu.tfai.sate2.spectra.SpectralUtils.removeNegativePoints;
+import static edu.tfai.sate2.utils.TimeUtils.formatTime;
 import static java.lang.String.format;
 
 @Slf4j
@@ -26,7 +26,7 @@ public abstract class ShiftManager {
 
     public static double getShift(LineData line, Spectra obsSpectra, Spectra synthSpectra) {
 
-        Stopwatch stopwatch = Stopwatch.getInstance();
+        Stopwatch stopwatch = Stopwatch.createStarted();
 
         double step = BatchParameters.SHIFT_STEP;
         double shiftStart = SHIFT_START;
@@ -54,7 +54,8 @@ public abstract class ShiftManager {
                 microShift = 0;
             }
         }
-        stopwatch.logTimeDebug("Shift determination");
+        log.debug("Shift determination time=%s", formatTime(stopwatch));
+
 
         double totalShift = primaryShift + microShift;
         log.debug(format("Total shift found %.4f", totalShift));

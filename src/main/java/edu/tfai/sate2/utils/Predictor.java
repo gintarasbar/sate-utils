@@ -13,9 +13,9 @@ public class Predictor<T extends Number, A extends Number> {
 
     private boolean hasPrediction = true;
 
-    public Predictor(List<T> x, List<A> y) {
-        if (x.size() >= 2) {
-            PolynomialFitter polynomialFitter = new PolynomialFitter(1);
+    public Predictor(List<T> x, List<A> y, int freedom) {
+        if (x.size() > freedom) {
+            PolynomialFitter polynomialFitter = new PolynomialFitter(freedom);
             for (int i = 0; i < x.size(); i++) {
                 polynomialFitter.addPoint(x.get(i).doubleValue(), y.get(i).doubleValue());
             }
