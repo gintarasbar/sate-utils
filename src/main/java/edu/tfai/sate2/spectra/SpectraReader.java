@@ -3,6 +3,7 @@ package edu.tfai.sate2.spectra;
 import com.google.common.base.Optional;
 import com.google.inject.Singleton;
 import edu.tfai.sate2.cache.DataCache;
+import edu.tfai.sate2.exceptions.SpectraException;
 import edu.tfai.sate2.exceptions.SpectraOutOfRange;
 import edu.tfai.sate2.synthetic.file.SpectraFileUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -66,8 +67,9 @@ public class SpectraReader {
             validateSpectra(file, lineId, startWave, endWave, spectra);
             return spectra;
         } catch (Exception e) {
-            log.error("Error loading spectra {}", e);
-            throw new IllegalStateException("Error while loading the spectra " + file, e);
+            log.debug("Error loading spectra ", e);
+            log.error("Error loading spectra {}", e.getMessage());
+            throw new SpectraException(startWave, endWave, lineId);
         }
     }
 
@@ -150,7 +152,8 @@ public class SpectraReader {
             }
             br.close();
         } catch (Exception e) {
-            log.error("Error: {}", e);
+            log.debug("Error loading range: {}", e);
+            log.error("Error loading range: {}", e.getMessage());
             throw new Exception("Error loading spectra: " + file + ". ");
 
         }

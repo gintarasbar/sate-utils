@@ -3,15 +3,12 @@ package edu.tfai.sate.model;
 import edu.tfai.sate2.utils.NumberUtil;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 import java.util.*;
 
-/**
- * One element lines with all the data
- *
- * @author gintaras
- */
+@Slf4j
 public class Element implements Serializable, Cloneable {
     private static final long serialVersionUID = -6843330694519646713L;
     @Getter
@@ -57,9 +54,7 @@ public class Element implements Serializable, Cloneable {
     private Hashtable<String, LineData> lineHash = new Hashtable<String, LineData>();
 
 
-
-
-    public Element(String symbol, int ion, int elementNumber){
+    public Element(String symbol, int ion, int elementNumber) {
         this.elementNumber = elementNumber;
         this.symbol = symbol;
         this.ion = ion;
@@ -251,8 +246,9 @@ public class Element implements Serializable, Cloneable {
     }
 
     public String getErrorMean() {
-        if (errorMean == null)
+        if (errorMean == null) {
             return "-";
+        }
         return NumberUtil.format(errorMean.floatValue(), 6);
     }
 
@@ -261,8 +257,9 @@ public class Element implements Serializable, Cloneable {
     }
 
     public String getErrorStDev() {
-        if (errorStDev == null)
+        if (errorStDev == null) {
             return "-";
+        }
         return NumberUtil.format(errorStDev.floatValue(), 6);
     }
 
@@ -271,34 +268,50 @@ public class Element implements Serializable, Cloneable {
     }
 
     public List<Double> getChiLower() {
-        List<Double> abund = new ArrayList<Double>();
+        List<Double> chil = new ArrayList<Double>();
         for (LineData line : lines)
-            if (line.isIncluded())
-                abund.add(line.getChi_l().doubleValue());
-        return abund;
+            if (line.isIncluded()) {
+                if (line.getChi_l() == null) {
+                    log.warn("Chi_l null for line {} {}", getIdentification(), line.getWavelength());
+                }
+                chil.add(line.getChi_l().doubleValue());
+            }
+        return chil;
     }
 
     public List<Double> getLambdas() {
-        List<Double> abund = new ArrayList<Double>();
+        List<Double> wave = new ArrayList<Double>();
         for (LineData line : lines)
-            if (line.isIncluded())
-                abund.add(line.getWavelength().doubleValue());
-        return abund;
+            if (line.isIncluded()) {
+                if (line.getWavelength() == null) {
+                    log.warn("Wavelength null for line {}", getIdentification());
+                }
+                wave.add(line.getWavelength().doubleValue());
+            }
+        return wave;
     }
 
     public List<Double> getEqws() {
-        List<Double> abund = new ArrayList<Double>();
+        List<Double> eqw = new ArrayList<Double>();
         for (LineData line : lines)
-            if (line.isIncluded())
-                abund.add(line.getEqwidth().doubleValue());
-        return abund;
+            if (line.isIncluded()) {
+                if (line.getEqwidth() == null) {
+                    log.warn("Eqw null for line {} {}", getIdentification(), line.getWavelength());
+                }
+                eqw.add(line.getEqwidth().doubleValue());
+            }
+        return eqw;
     }
 
     public List<Double> getAbundances() {
         List<Double> abund = new ArrayList<Double>();
         for (LineData line : lines)
-            if (line.isIncluded())
+            if (line.isIncluded()) {
+                if (line.getEvaluatedAbundance() == null) {
+                    log.warn("Abundance null for line {} {}", getIdentification(), line.getWavelength());
+                }
                 abund.add(line.getEvaluatedAbundance());
+            }
         return abund;
     }
 
