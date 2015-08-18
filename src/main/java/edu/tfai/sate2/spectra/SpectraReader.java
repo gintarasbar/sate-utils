@@ -47,13 +47,14 @@ public class SpectraReader {
         }
 
         if (spectra == null || spectra.size() == 0) {
-            log.error(format("Error loading synthetic spectra %s", file));
-            throw new SpectraOutOfRange(0, spectra.getMinX(), spectra.getMaxX(), lineId);
+            //FIXME unify spectra validation as in observed spectra loading
+            log.error(format("Error loading synthetic spectra %s for line %s", file, lineId));
+            throw new SpectraOutOfRange(0, minWave, maxWave, lineId);
         }
         return spectra;
     }
 
-    public Spectra loadSpectra(Path file, String lineId, double startWave, double endWave) {
+    public Spectra loadSpectra(Path file, String lineId, double startWave, double endWave) throws Exception {
         if (file.toString().endsWith(".xxy")) {
             throw new IllegalArgumentException("Calling synthetic spectra with cache " + file.toString());
         }
@@ -67,8 +68,10 @@ public class SpectraReader {
             validateSpectra(file, lineId, startWave, endWave, spectra);
             return spectra;
         } catch (Exception e) {
+            if (e instanceof SpectraException) {
+                throw e;
+            }
             log.debug("Error loading spectra ", e);
-            log.error("Error loading spectra {}", e.getMessage());
             throw new SpectraException(startWave, endWave, lineId);
         }
     }
@@ -94,8 +97,8 @@ public class SpectraReader {
 
     private void validateSpectra(Path file, String lineId, Double startWave, Double endWave, Spectra spectra) {
         if (spectra == null || spectra.size() == 0) {
-            log.error(format("Error loading spectra of range[%.2f,%.2f] %s", startWave, endWave, file));
-            throw new SpectraOutOfRange(startWave, spectra.getMinX(), spectra.getMaxX(), lineId);
+            log.debug(format("Error loading spectra for range[%.2f,%.2f] from %s", startWave, endWave, file));
+            throw new SpectraOutOfRange(startWave, startWave, endWave, lineId);
         }
     }
 

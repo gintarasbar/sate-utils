@@ -21,7 +21,7 @@ public class SpectraOutOfRange extends SpectraException {
 
     @Override
     public String getMessage() {
-        return String.format("Range[%s,%.3f] of [%.3f, %.3f]", identification, wave, minimum, maximum);
+        return String.format("Spectra out of range[%.3f, %.3f] for %s, wave=%s", minimum, maximum, identification, wave);
     }
 
 }

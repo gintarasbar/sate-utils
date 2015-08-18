@@ -18,7 +18,7 @@ public class SpectraException extends AbstractSateException {
 
     @Override
     public String getMessage() {
-        return String.format("Spectra loading error for line %s of [%.3f, %.3f]", identification, minimum, maximum);
+        return String.format("Spectra loading error for %s at range[%.3f, %.3f]", identification, minimum, maximum);
     }
 
 }
