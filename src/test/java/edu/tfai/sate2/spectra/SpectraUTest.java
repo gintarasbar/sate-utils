@@ -19,8 +19,8 @@ public class SpectraUTest {
 
 
     private final Path file = FileNameUtils.getPath("o2_sun_synth.xxy");
-    private final Path sunFile = FileNameUtils.getPath("sunO2.txt");
-    private final Path starFile = FileNameUtils.getPath("HD222107_02.txt");
+    private final Path sunFile = FileNameUtils.getPath("sunO2.xxy");
+    private final Path starFile = FileNameUtils.getPath("HD222107_02.xxy");
 
     @InjectMocks
     SpectraReader spectraReader;

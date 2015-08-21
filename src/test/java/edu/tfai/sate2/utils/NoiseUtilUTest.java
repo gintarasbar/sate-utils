@@ -19,14 +19,14 @@ public class NoiseUtilUTest {
     private SpectraReader spectraReader = new SpectraReader();
 
     @Test
-    public void testNoiseLevel() {
+    public void testNoiseLevel() throws Exception {
         Spectra spectra = spectraReader.loadSyntheticSpectra(file, "02");
         double noise = noiseCheck(spectra);
         assertThat(noise, closeTo(284, 1));
     }
 
     @Test
-    public void testAddNoise() {
+    public void testAddNoise() throws Exception {
         Spectra spectra = spectraReader.loadSyntheticSpectra(file, "02");
         Spectra noisySp = addNoise(spectra.copy(), 0.25);
 //        assertNotEquals(spectra.getY(0),noisySp.getY(0),0.1);

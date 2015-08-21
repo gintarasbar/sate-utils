@@ -25,11 +25,11 @@ public class SpectraReader {
     private static DataCache<Spectra> dataCache = new DataCache<Spectra>(1, TimeUnit.DAYS);
 
 
-    public Spectra loadSyntheticSpectra(Path file, String lineId) {
+    public Spectra loadSyntheticSpectra(Path file, String lineId) throws FileNotFoundException {
         return loadSyntheticSpectra(file, lineId, 0, Double.MAX_VALUE);
     }
 
-    public Spectra loadSyntheticSpectra(Path file, String lineId, double minWave, double maxWave) {
+    public Spectra loadSyntheticSpectra(Path file, String lineId, double minWave, double maxWave) throws FileNotFoundException {
         if (!file.toString().endsWith(".xxy")) {
             throw new IllegalArgumentException("This is not synthetic spectra file " + file.toString());
         }
@@ -38,8 +38,10 @@ public class SpectraReader {
         if ((file.toString().endsWith(".xxy") || file.toString().endsWith(".xy"))) {
             try {
                 spectra = loadSpectraFileRange(file, minWave, maxWave);
+            } catch (FileNotFoundException e) {
+                throw e;
             } catch (Exception e) {
-                log.error("Error loading synthetic spectra {}", e);
+                log.error("Error loading synthetic spectra: {}", e.getMessage());
                 throw new IllegalStateException("Error while loading synthetic spectra " + file, e);
             }
         } else {
@@ -155,8 +157,7 @@ public class SpectraReader {
             }
             br.close();
         } catch (Exception e) {
-            log.debug("Error loading range: {}", e);
-            log.error("Error loading range: {}", e.getMessage());
+            log.debug("Error loading range: ", e);
             throw new Exception("Error loading spectra: " + file + ". ");
 
         }

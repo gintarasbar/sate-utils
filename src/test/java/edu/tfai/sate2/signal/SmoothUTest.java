@@ -20,7 +20,7 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SmoothUTest {
-    private final Path file = getPath("HD222107_02.txt");
+    private final Path file = getPath("HD222107_02.xxy");
 
 
     SpectraReader spectraReader = new SpectraReader();

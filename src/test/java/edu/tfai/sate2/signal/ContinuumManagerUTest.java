@@ -9,15 +9,15 @@ import static edu.tfai.sate2.utils.FileNameUtils.getPath;
 public class ContinuumManagerUTest {
     private final Path sunSynthetic = getPath("o2_sun_synth.xxy");
 
-    private final Path starSynthetic = getPath("o2_bsyn.txt");
+    private final Path starSynthetic = getPath("o2_bsyn.xxy");
 
-    private final Path sunFile = getPath("sunO2.txt");
+    private final Path sunFile = getPath("sunO2.xxy");
 
-    private final Path starFile = getPath("HD222107_02.txt");
+    private final Path starFile = getPath("HD222107_02.xxy");
 
-    private final Path camSynthetic = getPath("C2_syn_HD29317.txt");
+    private final Path camSynthetic = getPath("C2_syn_HD29317.xxy");
 
-    private final Path camFile = getPath("HD29317_C2.txt");
+    private final Path camFile = getPath("HD29317_C2.xxy");
 
     private SpectraReader reader = new SpectraReader();
 
