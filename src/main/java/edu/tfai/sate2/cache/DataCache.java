@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.charset.Charset;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
@@ -47,7 +48,7 @@ public class DataCache<T> {
     }
 
     private void loadCache(Optional<String> fileToStore) {
-        if (!fileToStore.isPresent()) {
+        if (!fileToStore.isPresent() || !java.nio.file.Files.exists(Paths.get(fileToStore.get()))) {
             return;
         }
         XMLParser xstream = new XMLParser();
