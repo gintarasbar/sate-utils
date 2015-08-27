@@ -6,6 +6,7 @@ import lombok.Data;
 import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -37,6 +38,10 @@ public class LeastSquareUtil {
         List<Double> newObservedY = smoothedSpectra.getNewObservedSpectraYValues();
         List<Double> newSyntheticY = smoothedSpectra.getNewSynthSpectraYValues();
 
+        return squareDifferenceStDevNoSmoothing(newObservedY, newSyntheticY);
+    }
+
+    public static double squareDifferenceStDevNoSmoothing(List<Double> newObservedY, List<Double> newSyntheticY) {
         SummaryStatistics stat = new SummaryStatistics();
         for (int i = 0; i < newObservedY.size(); i++) {
             stat.addValue(Math.pow(newSyntheticY.get(i) - newObservedY.get(i), 2));
@@ -67,8 +72,8 @@ public class LeastSquareUtil {
 
             PolynomialSplineFunction function = Smooth.getSplineSmoothFunction(syntheticSpectra);
             xValues = newArrayList();
-            newSynthSpectraYValues = newArrayList();
-            newObservedSpectraYValues = newArrayList();
+            newSynthSpectraYValues = new ArrayList(syntheticSpectra.size());
+            newObservedSpectraYValues = new ArrayList(syntheticSpectra.size());
 
 
             for (int i = 0; i < obsSpectra.size(); i++) {

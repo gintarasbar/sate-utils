@@ -1,13 +1,16 @@
 package edu.tfai.sate2.spectra;
 
+import com.google.common.primitives.Doubles;
 import edu.tfai.sate.eqwidth.ElementOutput;
 import edu.tfai.sate.eqwidth.LineDataOutput;
 import edu.tfai.sate2.model.batch.BatchParameters;
 import edu.tfai.sate2.model.batch.BatchResults;
+import edu.tfai.sate2.utils.LeastSquareUtil;
 import edu.tfai.sate2.utils.NumberUtil;
 import edu.tfai.sate2.signal.Smooth;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
+import org.apache.commons.math3.util.MathUtils;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -15,13 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.primitives.Doubles.asList;
 import static edu.tfai.sate2.model.batch.BatchParameters.DEFAULT_SMOOTH_FACTOR;
 import static edu.tfai.sate2.signal.Smooth.getSmooth;
 import static java.lang.String.format;
 
 @Slf4j
 public class SpectralUtils {
-
 
 
     public static double compareProfiles(Spectra obsSpectra, Spectra synthSpectra,
@@ -40,22 +43,17 @@ public class SpectralUtils {
             }
         }
 
-
         Spectra newSpectra = new Spectra(xList, yNewSpectra);
         Spectra observedSpectra = new Spectra(xList, yObservedSpectra);
-        double val = 0;
-//        if (line.isUseBottomFitting()) {
+
         results.setLineBottom(observedSpectra.getYStats().getMin());
-        val = observedSpectra.getYStats().getMin() - newSpectra.getYStats().getMin();
+        double val = observedSpectra.getYStats().getMin() - newSpectra.getYStats().getMin();
         results.setDifference(val);
-//        } else {
-//            results.setLineBottom(observedSpectra.getMinPoint().getY());
-//            Double difference = observedSpectra.getMinPoint().getY() - newSpectra.getMinPoint().getY();
-//            results.setDifference(difference); 3
-//            val = MathUtil.chiSquare(newSpectra.toArray()[1], observedSpectra.toArray()[1]);
-//        }
-        log.debug("Chi2=" + NumberUtil.format(val, 6));
-        return val;
+
+        double chiSquare = LeastSquareUtil.squareDifferenceStDevNoSmoothing(asList(newSpectra.getY()), asList(observedSpectra.getY()));
+        results.setChi2Error(chiSquare);
+        log.debug("Chi2=" + NumberUtil.format(chiSquare, 6));
+        return chiSquare;
     }
 
     public static void saveSpectra(Spectra spectra, String file) throws Exception {
@@ -100,7 +98,7 @@ public class SpectralUtils {
         return series;
     }
 
-    public static Spectra prepareSpectra(Spectra originalSpectra){
+    public static Spectra prepareSpectra(Spectra originalSpectra) {
         if (BatchParameters.SMOOTH_ENABLED) {
             return getSmooth(originalSpectra, DEFAULT_SMOOTH_FACTOR, 1);
         } else {
