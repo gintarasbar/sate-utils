@@ -5,6 +5,7 @@ import com.google.common.primitives.Doubles;
 import edu.tfai.sate2.utils.math.PolynomialFitter;
 
 import javax.swing.text.html.Option;
+import java.awt.geom.Point2D;
 import java.util.List;
 
 public class Predictor<T extends Number, A extends Number> {
@@ -18,6 +19,18 @@ public class Predictor<T extends Number, A extends Number> {
             PolynomialFitter polynomialFitter = new PolynomialFitter(freedom);
             for (int i = 0; i < x.size(); i++) {
                 polynomialFitter.addPoint(x.get(i).doubleValue(), y.get(i).doubleValue());
+            }
+            pol = polynomialFitter.getBestFit();
+        } else {
+            hasPrediction = false;
+        }
+    }
+
+    public Predictor(List<Point2D> points, int freedom) {
+        if (points.size() > freedom) {
+            PolynomialFitter polynomialFitter = new PolynomialFitter(freedom);
+            for (Point2D point : points) {
+                polynomialFitter.addPoint(point.getX(), point.getY());
             }
             pol = polynomialFitter.getBestFit();
         } else {
