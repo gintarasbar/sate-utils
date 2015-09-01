@@ -1,14 +1,19 @@
 package edu.tfai.sate2.model.batch;
 
 import edu.tfai.sate2.spectra.Spectra;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 
 import static edu.tfai.sate2.utils.RadialVelocityUtil.shiftToRadialVelocity;
 
 @Data
 public class BatchResults implements Cloneable {
+    @Setter(AccessLevel.NONE)
     protected String lineRange;
+    @Setter(AccessLevel.NONE)
     protected Double[] range = new Double[2];
+    @Setter(AccessLevel.NONE)
     protected double lineWidth;
     protected Double lineBottom;
     protected Double difference;
@@ -46,6 +51,12 @@ public class BatchResults implements Cloneable {
         this.range[1] = end;
         this.lineWidth = end - start;
         this.lineRange = String.format("[%.2f,%.2f]", start, end);
+    }
+
+    public void setLineRange(Double[] values) {
+        if (null != (values) && values.length > 1) {
+            setLineRange(values[0], values[1]);
+        }
     }
 
 
