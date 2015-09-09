@@ -84,8 +84,8 @@ public class SpectraReader {
             spectra = of(loadSpectraAndSetFileName(file, startWave, endWave));
             dataCache.store(spectraKey(file, startWave, endWave), spectra.get().copy());
         } else {
-            spectra.get().setCached(true);
             spectra = of(spectra.get().copy());
+            spectra.get().setCached(true);
         }
         return spectra.get();
     }

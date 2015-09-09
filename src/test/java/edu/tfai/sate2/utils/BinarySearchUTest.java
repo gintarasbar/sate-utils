@@ -1,6 +1,7 @@
 package edu.tfai.sate2.utils;
 
 import edu.tfai.sate2.exceptions.ProfileException;
+import edu.tfai.sate2.exceptions.SpectraOutOfRangeBinary;
 import org.junit.Test;
 
 import static junit.framework.TestCase.fail;
@@ -29,14 +30,14 @@ public class BinarySearchUTest {
         try {
             BinarySearch.search(x, 8.1);
             fail();
-        } catch (ProfileException e) {
+        } catch (SpectraOutOfRangeBinary e) {
 
         }
 
         try {
             BinarySearch.search(x, 0.9);
             fail();
-        } catch (ProfileException e) {
+        } catch (SpectraOutOfRangeBinary e) {
 
         }
 

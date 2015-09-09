@@ -21,15 +21,25 @@ public class Element implements Serializable, Cloneable {
     @Getter
     @Setter
     private int elementNumber;
+
+    @Getter
+    @Setter
     private Double meanAbundance = null;
 
     @Setter
+    @Getter
     private Double medianAbundance = null;
 
+    @Getter
+    @Setter
     private Double stdDevAbund = null;
 
+    @Getter
+    @Setter
     private Double errorMean = null;
 
+    @Getter
+    @Setter
     private Double errorStDev = null;
 
 
@@ -37,6 +47,7 @@ public class Element implements Serializable, Cloneable {
      * Abundance
      */
     @Getter
+    @Setter
     private Float abundance = null;
 
     /**
@@ -88,14 +99,6 @@ public class Element implements Serializable, Cloneable {
         return NumberUtil.convertToRomain(ion);
     }
 
-    /**
-     * Sets abundance value
-     *
-     * @param abundance abundance value
-     */
-    public void setAbundance(Float abundance) {
-        this.abundance = abundance;
-    }
 
     /**
      * Gets lines value
@@ -182,34 +185,6 @@ public class Element implements Serializable, Cloneable {
         lineHash.clear();
     }
 
-    public String getMeanAbundance() {
-        if (meanAbundance == null)
-            return "-";
-        return NumberUtil.format(meanAbundance.floatValue(), 2);
-    }
-
-    public void setMeanAbundance(Double meanAbundance) {
-        this.meanAbundance = meanAbundance;
-    }
-
-    public Double getMeanAbundanceNumber() {
-        return meanAbundance;
-    }
-
-    public String getStdDevAbund() {
-        if (stdDevAbund == null)
-            return "-";
-        return NumberUtil.format(stdDevAbund.floatValue(), 2);
-    }
-
-    public void setStdDevAbund(Double stdDev) {
-        this.stdDevAbund = stdDev;
-    }
-
-    public Double getStdDevAbundNumber() {
-        return stdDevAbund;
-    }
-
     /**
      * Gets included line count
      *
@@ -245,28 +220,6 @@ public class Element implements Serializable, Cloneable {
         this.wavelengthToRemove = wavelengthToRemove;
     }
 
-    public String getErrorMean() {
-        if (errorMean == null) {
-            return "-";
-        }
-        return NumberUtil.format(errorMean.floatValue(), 6);
-    }
-
-    public void setErrorMean(Double errorMean) {
-        this.errorMean = errorMean;
-    }
-
-    public String getErrorStDev() {
-        if (errorStDev == null) {
-            return "-";
-        }
-        return NumberUtil.format(errorStDev.floatValue(), 6);
-    }
-
-    public void setErrorStDev(Double errorStDev) {
-        this.errorStDev = errorStDev;
-    }
-
     public List<Double> getChiLower() {
         List<Double> chil = new ArrayList<Double>();
         for (LineData line : lines)
@@ -295,9 +248,9 @@ public class Element implements Serializable, Cloneable {
         List<Double> eqw = new ArrayList<Double>();
         for (LineData line : lines)
             if (line.isIncluded()) {
-                if (line.getEqwidth() == null) {
-                    log.warn("Eqw null for line {} {}", getIdentification(), line.getWavelength());
-                }
+//                if (line.getEqwidth() == null) {
+//                    log.warn("Eqw null for line {} {}", getIdentification(), line.getWavelength());
+//                }
                 eqw.add(line.getEqwidth().doubleValue());
             }
         return eqw;
@@ -307,9 +260,9 @@ public class Element implements Serializable, Cloneable {
         List<Double> abund = new ArrayList<Double>();
         for (LineData line : lines)
             if (line.isIncluded()) {
-                if (line.getEvaluatedAbundance() == null) {
-                    log.warn("Abundance null for line {} {}", getIdentification(), line.getWavelength());
-                }
+//                if (line.getEvaluatedAbundance() == null) {
+//                    log.warn("Abundance null for line {} {}", getIdentification(), line.getWavelength());
+//                }
                 abund.add(line.getEvaluatedAbundance());
             }
         return abund;

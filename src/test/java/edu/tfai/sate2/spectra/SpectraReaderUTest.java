@@ -68,15 +68,15 @@ public class SpectraReaderUTest {
     @Test
     public void testReadSpectraRangeWithWavelengths() throws Exception {
         spectraReader = new SpectraReader();
-        Spectra spectra = spectraReader.loadSpectra(file, "TestLine", 6295.0800, 6298.1700);
+        Spectra spectra = spectraReader.loadSyntheticSpectra(file, "TestLine", 6295.0800, 6298.1700);
         assertThat(spectra.size(), is(310));
         spectra.shift(0.5);
         spectra.applyContinuumLevel(2);
         assertThat(spectra.getX(0), closeTo(6295.5800, 0.001));
         assertThat(spectra.getY(0), closeTo(2.200, 0.001));
         assertThat(spectra.isCached(), is(false));
-        spectra = spectraReader.loadSpectra(file, "TestLine", 6295.0800, 6298.1700);
-        assertThat(spectra.isCached(), is(true));
+        spectra = spectraReader.loadSyntheticSpectra(file, "TestLine", 6295.0800, 6298.1700);
+        assertThat(spectra.isCached(), is(false));
     }
 
     @Test
