@@ -15,21 +15,10 @@ public class Migrator {
             string = string.replaceAll("<instrumentalProfileFile>.*</instrumentalProfileFile>", "");
         }
 
-        if (!string.contains("edu.tfai.sate.eqwidth.LineData")) {
-            string = string.replaceAll("edu\\.tfai\\.sate\\.eqwidth\\.LineData", "edu.tfai.sate.model.LineData");
-        }
-
-        if (!string.contains("edu\\.tfai\\.sate\\.objects\\.LineData")) {
-            string = string.replaceAll("edu.tfai.sate.objects.LineData", "edu.tfai.sate.model.LineData");
-        }
-
-        if (!string.contains("edu.tfai.sate.eqwidth.Element")) {
-            string = string.replaceAll("edu\\.tfai\\.sate\\.eqwidth\\.Element", "edu.tfai.sate.model.Element");
-        }
-
-        if (!string.contains("edu\\.tfai\\.sate\\.objects\\.Element")) {
-            string = string.replaceAll("edu.tfai.sate.objects.Element", "edu.tfai.sate.model.Element");
-        }
+        string = string.replaceAll("edu\\.tfai\\.sate\\.eqwidth\\.LineData", "edu.tfai.sate.model.LineData");
+        string = string.replaceAll("edu\\.tfai\\.sate\\.objects\\.LineData", "edu.tfai.sate.model.LineData");
+        string = string.replaceAll("edu\\.tfai\\.sate\\.eqwidth\\.Element", "edu.tfai.sate.model.Element");
+        string = string.replaceAll("edu\\.tfai\\.sate\\.objects\\.Element", "edu.tfai.sate.model.Element");
 
         return string;
     }
