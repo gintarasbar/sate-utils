@@ -14,7 +14,7 @@ public class IllegalAbundance extends AbstractSateException {
 
     @Override
     public String getMessage() {
-        return String.format("AbundErr[%s,%.3f,%.2f]", batchResults.getIdenfitication(),
+        return String.format("AbundErr[%s,%.3f, abund=%.2f]", batchResults.getIdenfitication(),
                 batchResults.getWavelength(), abundance);
     }
 }

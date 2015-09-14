@@ -2,6 +2,7 @@ package edu.tfai.sate.model;
 
 import edu.tfai.sate.swing.RowData;
 import edu.tfai.sate2.utils.NumberUtil;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,18 +11,16 @@ import lombok.ToString;
  * Element one line data
  */
 
-@Getter
-@Setter
-@ToString
+@Data
 public class LineData  implements RowData, Cloneable  {
     private static final long serialVersionUID = 978917136740347113L;
 
     /**
      * Wavelength
      */
-    protected  Float wavelength;
+    Float wavelength;
 
-    protected Element elementReference;
+    Element elementReference;
     /**
      * Error. Fixed value.
      */

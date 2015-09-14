@@ -3,6 +3,10 @@ package edu.tfai.sate2.model.batch;
 public class BatchParameters {
 
     public static final int DEFAULT_SMOOTH_FACTOR = 3;
+    public static final double MIN_VT = 0.5;
+    public static final double MAX_VT = 2.5;
+    public static final String ELEMENT_USED_FOR_MICROTURBULENCE = "Fe_I";
+    public static final boolean USE_PRE_SELECTED_LINES_FOR_MICROTURBULENCE = false;
     public static boolean CONSOLE_MODE = true;
     /**
      * General delta for calculations, shift and continuum
@@ -32,5 +36,6 @@ public class BatchParameters {
     public static boolean USE_CACHE = true;
     public static boolean OUTLIER_CHECK = true;
     public static boolean EXIT_ON_ERROR = false;
+
 
 }

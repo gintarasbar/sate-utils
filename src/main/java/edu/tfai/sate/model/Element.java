@@ -106,6 +106,7 @@ public class Element implements Serializable, Cloneable {
      * @return lines value
      */
     public ArrayList<LineData> getLines() {
+        //extra measurement if reference is null
         for (LineData line : lines)
             line.setElementReference(this);
         return lines;
@@ -127,8 +128,9 @@ public class Element implements Serializable, Cloneable {
      */
     public void addLine(LineData lineData) {
         lineData.setElementReference(this);
-        if (lineData.getWavelength() != null)
+        if (lineData.getWavelength() != null) {
             lineHash.put(String.format("%.3f", lineData.getWavelength()), lineData);
+        }
         lines.add(lineData);
     }
 
@@ -207,7 +209,7 @@ public class Element implements Serializable, Cloneable {
         el.setStdDevAbund(stdDevAbund);
         for (LineData line : lines) {
             el.addLine((LineData) line.clone());
-            line.setElementReference(this);
+            //line.setElementReference(this);
         }
         return el;
     }
