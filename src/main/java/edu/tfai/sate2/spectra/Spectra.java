@@ -18,6 +18,8 @@ import static edu.tfai.sate2.utils.RadialVelocityUtil.radialVelocityToShift;
 import static edu.tfai.sate2.utils.RandomUtils.string;
 import static java.lang.Math.max;
 import static java.lang.String.format;
+import static org.apache.commons.math3.util.FastMath.pow;
+import static org.apache.commons.math3.util.FastMath.sqrt;
 
 @Getter
 @Slf4j
@@ -126,6 +128,21 @@ public class Spectra implements Serializable, Cloneable {
 
     public int findPosition(double xValue) {
         return BinarySearch.search(x, xValue);
+    }
+
+    public int findClosestPoint(double xValue, double yValue) {
+        double minDistance = Double.MAX_VALUE;
+        int minPos = -1;
+        for (int i = 0; i < size(); i++) {
+            double x = getX(i);
+            double y = getY(i);
+            double dist = sqrt(pow(x - xValue, 2) + pow(y - yValue, 2));
+            if (dist < minDistance) {
+                minPos = i;
+                minDistance = dist;
+            }
+        }
+        return minPos;
     }
 
     public double getX(int pos) {

@@ -42,10 +42,10 @@ public class Profile {
      * Extracts spectra according to wavelengths, cutting off the lowered left
      * part and cuts the double line in the end if there is any
      */
-    public static Spectra extractSpectra(double startWave, double endWave, Spectra spectra)
+    public static Spectra extractSpectra(Spectra spectra, double[] waves)
             throws Exception {
-        int start = search(spectra.getX(), startWave);
-        int end = search(spectra.getX(), endWave);
+        int start = search(spectra.getX(), waves[0]);
+        int end = search(spectra.getX(), waves[1]);
         //FIXME when extracting apply gaussian
 
         Spectra sp = spectra.getSubSpectra(start, end);
@@ -57,9 +57,9 @@ public class Profile {
     /**
      * Evaluates the ranges for the line
      */
-    public static double[] getWaveRangeForLine(LineData line, Spectra spectra3)
+    public static double[] getWaveRangeForLine(LineData line, Spectra spectra)
             throws Exception {
-        Spectra profile = getLineProfile(line, spectra3);
+        Spectra profile = getLineProfile(line, spectra);
         double range = profile.getMaxX() - profile.getMinX();
         double percent = 0.15;
         return new double[]{profile.getMinX() + range * percent, profile.getMaxX() - range * percent};
@@ -99,7 +99,7 @@ public class Profile {
 
     public static Spectra extractProfile(LineData line, Spectra originalSpectra) throws Exception {
         double[] waveRangeForLine = Profile.getWaveRangeForLine(line, originalSpectra);
-        return Profile.extractSpectra(waveRangeForLine[0], waveRangeForLine[1], originalSpectra);
+        return Profile.extractSpectra(originalSpectra, waveRangeForLine);
     }
 
     public static double[] getRange(Spectra spectra) {

@@ -17,8 +17,8 @@ import static java.lang.String.format;
 public abstract class ContinuumManager {
 
     public static double fixContinuum(Spectra originalSpectra, Spectra synthetic) {
-//        double mult1 = fixUsingPercentile(originalSpectra.copy(), synthetic);
-        double mult2 = fixUsingPlateMaxima(originalSpectra.copy(), synthetic);
+        double mult2 = fixUsingPercentile(originalSpectra.copy(), synthetic);
+//        double mult2 = fixUsingPlateMaxima(originalSpectra.copy(), synthetic);
 //
 //        if (mult1 < mult2) {
 //            log.info(format("Continuum fix1:%.4f", mult1));
@@ -35,29 +35,11 @@ public abstract class ContinuumManager {
         Spectra contSeries = getSmooth(originalSpectra, 20, 1);
 
         if (originalSpectra.getResolution() > HI_RES_LIMIT) {
-            double yMax = contSeries.getYStats().getMax();
-            double yMaxSyn = synthetic.getYStats().getMax();
 
-            double median = contSeries.getYStats().getPercentile(75);
-            int size = contSeries.size();
+            double synMax = synthetic.getYStats().getPercentile(98);
+            double obsMax = contSeries.getYStats().getPercentile(99.9);
 
-            List<Double> xx = new ArrayList(originalSpectra.size() / 2);
-            List<Double> yy = new ArrayList(originalSpectra.size() / 2);
-
-            for (int i = 0; i < size; i++) {
-                if (contSeries.getY(i) > median) {
-                    xx.add(contSeries.getX(i));
-                    yy.add(contSeries.getY(i));
-                }
-            }
-
-            Spectra sp = new Spectra(Doubles.toArray(xx), Doubles.toArray(yy));
-            median = (sp.getYStats().getPercentile(85) + yMax) / 2;
-
-            double mult = yMaxSyn / median;
-            log.debug("Range for continuum " + (contSeries.getMaxX() - contSeries.getMinX()));
-
-            return mult;
+            return synMax / obsMax;
         }
         throw new IllegalStateException("Low resolution spectra detected on continuum fix: " + originalSpectra.getResolution());
 
@@ -73,7 +55,7 @@ public abstract class ContinuumManager {
         SummaryStatistics summaryStatistics = new SummaryStatistics();
         for (int i = 0; i < points; i++) {
             double value = maxPoints2[i] / maxPoints1[i];
-            if(i==1) {
+            if (i == 1) {
                 value = value + value * 10;
             }
             multiplier += value;

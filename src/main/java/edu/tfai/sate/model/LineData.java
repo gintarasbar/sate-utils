@@ -1,11 +1,15 @@
 package edu.tfai.sate.model;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.primitives.Ints;
 import edu.tfai.sate.swing.RowData;
 import edu.tfai.sate2.utils.NumberUtil;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import static com.google.common.base.MoreObjects.firstNonNull;
 
 /**
  * Element one line data
@@ -156,7 +160,7 @@ public class LineData  implements RowData, Cloneable  {
         eqwidth = NumberUtil.tryParseFloat(data[6]);
         err = NumberUtil.tryParseFloat(data[7]);
         transition = (String) data[8];
-        instrumentalProfile = NumberUtil.parseInteger(data[9].toString());
+        instrumentalProfile = Ints.tryParse(firstNonNull(data[9], "").toString());
         evaluatedAbundance = NumberUtil.tryParseDouble(data[10]);
         comment = (String) data[11];
         edited = (Boolean) data[12];

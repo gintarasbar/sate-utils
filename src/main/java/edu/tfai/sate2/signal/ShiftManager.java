@@ -16,6 +16,9 @@ import static edu.tfai.sate.model.Element.getIdentification;
 import static edu.tfai.sate2.signal.Smooth.getSmooth;
 import static edu.tfai.sate2.spectra.SpectralUtils.removeNegativePoints;
 import static edu.tfai.sate2.utils.TimeUtils.formatTime;
+import static java.awt.geom.Point2D.distance;
+import static java.lang.Math.round;
+import static java.lang.Math.signum;
 import static java.lang.String.format;
 
 @Slf4j
@@ -44,17 +47,22 @@ public abstract class ShiftManager {
         }
 
         double microShift = 0;
-        if (obsSpectra.getStep() < step) {
-            smoothedSpectra.shift(-shiftEnd + primaryShift);
-//            microShift = determineShift(obsSpectra, synthSpectra, obsSpectra.getStep() / 2.0d, -step * 2, step * 2, smoothedSpectra);
-            try {
-                microShift = smallShiftCorrection(line, obsSpectra, synthSpectra);
-            } catch (Exception e) {
-                log.error("Microshift failed {}", e);
-                microShift = 0;
-            }
-        }
-        log.debug("Shift determination time=%s", formatTime(stopwatch));
+//        if (obsSpectra.getStep() < step) {
+//            smoothedSpectra.shift(-shiftEnd + primaryShift);
+////            microShift = determineShift(obsSpectra, synthSpectra, obsSpectra.getStep() / 2.0d, -step * 2, step * 2, smoothedSpectra);
+//            try {
+//                microShift = smallShiftCorrection(line, obsSpectra, synthSpectra);
+//            } catch (Exception e) {
+//                log.error("Microshift failed {}", e);
+//                microShift = 0;
+//            }
+//        }
+//        try {
+//            microShift = extraShift(line, obsSpectra, synthSpectra);
+//        } catch (Exception e) {
+//
+//        }
+//        log.debug("Shift determination time=%s", formatTime(stopwatch));
 
 
         double totalShift = primaryShift + microShift;
@@ -100,6 +108,51 @@ public abstract class ShiftManager {
                     log.info(format("Found extraShift exceeded=%.4f", shift));
                     shift = 0.0d;
                 }
+            } catch (Exception e) {
+                log.warn("Warning: "
+                        + String.format("Check line instrumentalProfile in star:%s, line:%s=%.2f", BatchParameters.STAR_NAME,
+                        line.getElementReference().getIdentification(), line.getWavelength()));
+                shift = 0;
+            }
+        }
+
+        // log.info(format("Found extraShift=%.4f", shift));
+        return shift;
+    }
+
+
+    private static double extraShift(LineData line, Spectra observed, Spectra synthetic) throws Exception {
+        double shift = 0.0d;
+        if (line.isUseExtraShift()) {
+
+            try {
+                double synCenter = Profile.getCenterWavelength(line, synthetic);
+                double obsCenter = Profile.getCenterWavelength(line, observed);
+
+                double[] waveSyn = Profile.getWaveRangeForLine(line, synthetic);
+                double[] waveObs = Profile.getWaveRangeForLine(line, observed);
+
+                observed = Profile.extractSpectra(observed, waveObs);
+                synthetic = Profile.extractSpectra(synthetic, waveSyn);
+
+                int pos1 = (int) round(observed.size() / 4.0) + 1;
+                int pos2 = (int) round(observed.size() * 0.75) - 1;
+
+                int posSyn1 = synthetic.findClosestPoint(observed.getX(pos1), observed.getY(pos1));
+                int posSyn2 = synthetic.findClosestPoint(observed.getX(pos2), observed.getY(pos2));
+
+                double dist1 = synthetic.getX(posSyn1) - observed.getX(pos1);
+                double dist2 = synthetic.getX(posSyn2) - observed.getX(pos2);
+
+                double dist3 = synCenter - obsCenter;
+                shift = 0;
+                log.info("{} dist1={}, dist2={}, dist3={}", line.getWavelength(), dist1, dist2, dist3);
+                log.info("{} sx1={}, sx2={}, sy1={}, sy2={}", line.getWavelength(), synthetic.getX(posSyn1), synthetic.getX(posSyn2), synthetic.getY(posSyn1), synthetic.getY(posSyn2));
+//                shift = (dist1 + dist2 + dist3) / 3.0;
+//                if (Math.abs(shift) > 0.2d) {
+//                    log.info(format("Found extraShift exceeded=%.4f", shift));
+//                    shift = 0.0d;
+//                }
             } catch (Exception e) {
                 log.warn("Warning: "
                         + String.format("Check line instrumentalProfile in star:%s, line:%s=%.2f", BatchParameters.STAR_NAME,
