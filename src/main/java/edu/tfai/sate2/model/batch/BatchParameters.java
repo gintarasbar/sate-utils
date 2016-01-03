@@ -36,6 +36,5 @@ public class BatchParameters {
     public static boolean USE_CACHE = true;
     public static boolean OUTLIER_CHECK = true;
     public static boolean EXIT_ON_ERROR = false;
-
-
+    public static boolean CALIBRATE = false;
 }

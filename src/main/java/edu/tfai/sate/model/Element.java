@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.Serializable;
 import java.util.*;
 
+import static java.lang.String.format;
+
 @Slf4j
 public class Element implements Serializable, Cloneable {
     private static final long serialVersionUID = -6843330694519646713L;
@@ -76,6 +78,10 @@ public class Element implements Serializable, Cloneable {
                 .getIdentification() : "null";
     }
 
+    public static String getFullIdentification(LineData line) {
+        return format("%s %.3f", getIdentification(line), line.getWavelength());
+    }
+
     public String getIdentification() {
         return getSymbol() + "_" + getIonRomain();
     }
@@ -129,7 +135,7 @@ public class Element implements Serializable, Cloneable {
     public void addLine(LineData lineData) {
         lineData.setElementReference(this);
         if (lineData.getWavelength() != null) {
-            lineHash.put(String.format("%.3f", lineData.getWavelength()), lineData);
+            lineHash.put(format("%.3f", lineData.getWavelength()), lineData);
         }
         lines.add(lineData);
     }
@@ -141,7 +147,7 @@ public class Element implements Serializable, Cloneable {
      */
     public void addLines(ArrayList<LineData> lineData) {
         for (LineData line : lineData)
-            lineHash.put(String.format("%.3f", line.getWavelength()), line);
+            lineHash.put(format("%.3f", line.getWavelength()), line);
         lines.addAll(lineData);
     }
 
@@ -271,6 +277,6 @@ public class Element implements Serializable, Cloneable {
     }
 
     public LineData getLine(Float lineWave) {
-        return lineHash.get(String.format("%.3f", lineWave));
+        return lineHash.get(format("%.3f", lineWave));
     }
 }

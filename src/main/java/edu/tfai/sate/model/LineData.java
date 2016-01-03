@@ -4,10 +4,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.primitives.Ints;
 import edu.tfai.sate.swing.RowData;
 import edu.tfai.sate2.utils.NumberUtil;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 
@@ -16,6 +13,7 @@ import static com.google.common.base.MoreObjects.firstNonNull;
  */
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class LineData  implements RowData, Cloneable  {
     private static final long serialVersionUID = 978917136740347113L;
 
