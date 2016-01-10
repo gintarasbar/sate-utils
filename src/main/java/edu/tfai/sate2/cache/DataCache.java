@@ -4,6 +4,7 @@ import com.google.common.base.Optional;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.io.Files;
+import com.google.inject.Singleton;
 import edu.tfai.sate2.parsers.XMLParser;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import static org.joda.time.LocalDateTime.now;
 
 @Slf4j
+@Singleton
 public class DataCache<T> {
 
     private final Cache<String, T> cache;
@@ -103,8 +105,8 @@ public class DataCache<T> {
     }
 
     public void clearCache() {
-        cache.cleanUp();
-        log.debug("Cache cleaned up");
+        cache.invalidateAll();
+        log.debug("Cache cleared");
     }
 
     @Data
