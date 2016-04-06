@@ -36,7 +36,7 @@ public class Smooth {
 
         //apply different smooth function
         //FIXME treat different low resolution
-        throw new IllegalArgumentException("Low resolution spectra detected: " + spectra.getResolution());
+        throw new IllegalArgumentException("Very low resolution spectra detected: " + spectra.getResolution());
 //        return null;
     }
 

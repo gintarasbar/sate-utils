@@ -41,7 +41,7 @@ public abstract class ContinuumManager {
 
             return synMax / obsMax;
         }
-        throw new IllegalStateException("Low resolution spectra detected on continuum fix: " + originalSpectra.getResolution());
+        throw new IllegalStateException("Very low resolution spectra detected on continuum fix: " + originalSpectra.getResolution());
 
     }
 
